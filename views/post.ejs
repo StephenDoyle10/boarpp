@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<%- include('layouts/header'); -%>
+<body>
+<%- include('layouts/navbar'); -%>
+
+
+
+
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-8 col-md-10 mx-auto">
+				<div class="standard-box">
+				<p class="meta"><span class="username">Stephen Doyle<a href="#"><%=blogpost.username%></a></span>
+					<span class="date"><br><%=blogpost.datePosted.toDateString()%></span></p>
+							 
+				<div class="post-heading">
+					<p><%=blogpost.body %></p>
+					
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+
+</html>

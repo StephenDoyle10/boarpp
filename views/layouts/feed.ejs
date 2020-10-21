@@ -1,0 +1,17 @@
+<div class="container">
+		<div class="row">
+			<div class="col-lg-8 col-md-10 mx-auto">
+				<% for(var i=blogposts.length-1;i>=0;i--){ %>
+				<div class="standard-box">
+					<p class="meta"><span class="username">Stephen Doyle<a href="#"><%=blogposts[i].username%></a></span>
+					<span class="date"><br><%=blogposts[i].datePosted.toDateString()%></span></p>
+				</p>
+					<a href="/post/<%=blogposts[i]._id%>">
+						<p class="post-subtitle"><%=blogposts[i].body %></p>
+					</a>
+				</div>
+				
+					<%} %>
+			</div>
+		</div>
+	</div>

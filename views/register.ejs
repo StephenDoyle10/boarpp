@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<%- include('layouts/header'); -%>
+
+<body>
+<%- include('layouts/navbar'); -%>
+
+<div class="container">
+	<div class ="row">
+		<div class="col-lg-8 col-md-10 mx-auto">
+			<div class="standard-box">
+				<div class="heading">Register a new account:
+				</div>
+				<div class="form">
+					<form action="/users/register" method="POST">
+						<input type="text" id="username" placeholder="User Name" name="username">
+						<input type="password" id="password" placeholder="Password" name="password">
+						<button type="submit" class="postbutton">Register</button>
+					
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+</body>
+
+</html>
