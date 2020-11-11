@@ -1,21 +1,76 @@
 <!DOCTYPE html>
 <html>
 
-<div id="nav">
-		<div class="col-sm nav-align">
-			<a href="/"><h1 id="title">BOARPP</h1>
-			<h5 id="slogan">play the game, claim the fame!</h5></a>
+
+<div class="container-fluid" id = "sidenav">
+	
+	<div class="row">
+		<div class="col-lg-4 col-md-0 col-sm-0 align-self-center">
+			
+			<div class="logo" id="logo">
+				<a href="/"><p id="title">BOARPP</p>
+				<h5 id="slogan">play the game, claim the fame!</h5></a>
+			</div>
 		</div>
-		<div class="col-sm nav-align">
-			<a href="/newpost">
-				<span class="button">New post</span>
-			</a>
-			<a href="/search">
-				<span class="button">Search</span>
-			</a>
+		<div class="col-lg-4 col-md-6 col-sm-12 align-self-center newSearch">
+			<div id="myBtn1" class="navButton newPost">New post</div>
+			<div id="myBtn2" class="navButton">Search</div>
+		</div>
+		<div class="col-lg-4 col-md-6 col-sm-12 align-self-center logStatus">
+			<div class="loggedIn"><p class="loggedInText">Logged in as:&nbsp;&nbsp;&nbsp;</p><p class="loggedInText"><%-loggedInUser %></p></div>
+				<a href="/auth/logout">
+					<div class="navButton logOutBtn">Log out</div>
+				</a>
 			
-			
+		</div>
+	
+
+<!-- First modal -->
+	<div class="navModal">
+		<div class="modalContentStyle">
+	  		<div class="closeModal">&times;</div>
+	    	<form action="/posts/store" method="POST">
+				<textarea id="summernoteNav" name="body"></textarea>
+				<script>
+					$('#summernoteNav').summernote({
+				        placeholder: 'What have you been playing recently?',
+				        tabsize: 2,
+				        height: 100,
+				        toolbar: [
+				            [ 'style', [ 'style' ] ],
+				            [ 'font', [ 'bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear'] ],
+				            [ 'fontname', [ 'fontname' ] ],
+				            [ 'fontsize', [ 'fontsize' ] ],
+				            [ 'color', [ 'color' ] ],
+				            [ 'para', [ 'ol', 'ul', 'paragraph', 'height' ] ],
+				            [ 'table', [ 'table' ] ],
+				            [ 'insert', [ 'link'] ],
+				            [ 'view', [ 'undo', 'redo', 'fullscreen', 'codeview', 'help' ] ]
+				        ]
+				      });
+				</script>
+				<button type="submit" class="postbutton" id="sendMessageButton">Post</button>
+			</form>
 		</div>
 	</div>
+
+	<!-- Second modal -->
+	<div class="navModal">
+		 <div class="modalContentStyle">
+		  	<div class="closeModal">&times;</div>
+		    <form action="/search" method="POST">
+				<label>Search blog posts:</label>
+				<input type="text" id="title2" name="search">
+				<button type="submit" class="postbutton" id="sendMessageButton">Search</button>
+			</form>
+		</div>
+	</div>
+</div>
+
+
+</div>
+
+
+
 
 	</html>
