@@ -19,7 +19,7 @@ body {
   margin:0;
   width:100%;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  font-size:14px;
+  font-size:16px;
   background-color: #FEF1B7;
   color:black;
 
@@ -55,7 +55,7 @@ textarea:focus{
 
 textarea::placeholder {
   font-style: italic;
-  font-size:14px;
+  font-size:16px;
 }
 
 input{
@@ -90,7 +90,7 @@ p{
   margin: 0;
   font-family: 'Bungee Shade', cursive;
   text-transform: uppercase;
-  font-size: 50px
+  font-size: 70px
 }
 
 #lpslogan{
@@ -127,7 +127,7 @@ p{
 
 #sidenav {
   width: 100%;
-  height: 105px;
+  height: 140px;
   margin:auto;
   padding: 0;
   background-color: #F6A7A4;
@@ -194,6 +194,7 @@ p{
 .button {
   background-color: #FEF1B7;
   padding: 0.3vw 3vw;
+  font-size:18px;
   border-radius: 10px;
   cursor: pointer;
   display: inline-block;
@@ -241,10 +242,10 @@ p{
   text-align: center;
   border:1px solid #F6A7A4;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 22px;
   color: #F6A7A4;
   width:50%;
-  height:30px;
+  height:40px;
   display:inline-block;
 }
 
@@ -272,7 +273,7 @@ p{
 .viewProfileButton, .logOutButton {
   border-radius: 10px;
   display:block;
-  margin:auto;
+  margin:auto auto 15px auto;
 }
 
 
@@ -454,91 +455,6 @@ label{
 
 
 
-
-
-
-
-
-
-
-
-
-
-/*View on screens between 600 and 1000px*/
-/*
-@media (min-width:600px)and (max-width:999px){
-
-  body {
-    padding-top: 10px;
-  margin: 155px 0 0 0;
-  
-
-}
-.postSearchButtons{
-  margin:0;
-  padding:0;
-  text-align: center;
-  position: static;
-  top:auto;
-  z-index: auto;
-}
-
-.newPostButton{
-
-  float:none;
-}
-
-.logStatus{
-  text-align: center;
-  margin:0;
-}
-
- #sidenav {
-  width:100%;
-  height: 155px;
-  padding: 0 0 0 0;
-  background-color: #F6A7A4;
-  z-index:1;
-  position: fixed;
-  top:0;
-
-}
-
-
-
-.navButton {
-  margin:auto;
-  background-color: #FEF1B7;
-  padding: 0.3vw 3vw;
-  text-align: center;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 16px;
-  color: #F6A7A4;
-  width:200px;
-  display:block;
-}
-  
-
-
-#lptitle{
- 
-  font-size: 100px
-}
-}
-
-
-
-
-
-
-
-
-
-
-
-
-*/
 
 
 @media (min-width:600px)and (max-width:900px){
