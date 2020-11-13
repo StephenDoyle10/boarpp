@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+
+
+
+<%- include('layouts/header'); -%>
+
+
+
+
+  
+
+
+
+<html>
+
+<div class="container">
+  <div class ="row">
+    <div class="col-lg-8  col-md-10 mx-auto">
+      <div class="standard-box">
+        <form action="/posts/store" method="POST" enctype="multipart/form-data">
+          <textarea id="summernote" name="body"></textarea>
+          <script>
+            $('#summernote').summernote({
+        placeholder: 'Hello Bootstrap 4',
+        tabsize: 2,
+        height: 100
+      });
+          </script>
+          
+
+          <label>Upload image:</label>
+          <input type="file" id="image" name="image">
+          <button type="submit" class="postbutton" id="sendMessageButton">Post</button>
+        
+
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+</html>
+</html>

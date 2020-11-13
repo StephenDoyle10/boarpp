@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<%- include('layouts/header'); -%>
+
+<body>
+
+<div class="container">
+	<div class ="row">
+		<div class="col-lg-8 col-md-10 mx-auto">
+			<div class="standard-box">
+				<div class="heading">Register a new account:
+				</div>
+				<% if(errors !=null&&errors.length>0){ %>
+					<ul class="list group"></ul>
+					<% for(var i=0;i<errors.length;i++){ %>
+					<li class="list-group-item list-group-item-danger"><%=errors[i]%></li>
+					<%} %>
+				</ul>
+				<% } %>
+				<div class="form">
+					<form action="/users/register" method="POST">
+						<input type="text" id="username" placeholder="User Name" name="username">
+						<input type="password" id="signUpPassword" placeholder="Password" name="password">
+						
+							<p id="passwordToggle" class="passwordToggle" onclick="showHidePassword()">Show password</p>
+							
+
+						</label>
+						<button type="submit" class="postbutton">Register</button>
+					
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<%- include('layouts/scripts'); -%>
+</body>
+
+</html>
