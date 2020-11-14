@@ -14,6 +14,8 @@ const bcrypt = require("bcrypt");
 const path = require("path");
 const fileUpload = require('express-fileupload');
 const flash= require('connect-flash');
+const AWS=require("aws-sdk");
+const fs = require("fs");
 
 // Define a connection with mongoose.connect which takes in the parameter host and database name.
 // In this case the name of the database is 'boarpp'.

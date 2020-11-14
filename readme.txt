@@ -12,10 +12,14 @@ NPM
 Express
 Template Engine (Embedded JavaScript/EJS)
 MongoDB
+MongoDB Compass
+MongoDB Atlas
 Mongoose
 User registration/ password encryption (using bcrypt)
 MVC architecture
 Summernote WYSIWYG text editor for formatting posts
+Heroku
+Amazon Simple Storage Service (S3)
 
 
 The application includes the following features:
