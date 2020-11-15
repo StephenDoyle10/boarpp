@@ -162,7 +162,7 @@ p{
 
 
 .editbuttons{
-  font-size:12px;
+  font-size:14px;
   font-style:italic;
 }
 
@@ -279,7 +279,7 @@ p{
 
 
 .deleteButton2 {
-  font-size: 12px;
+  font-size: 14px;
   background-color: red;
   padding: 0.3vw 3vw;
   border-radius: 10px;
@@ -291,7 +291,7 @@ p{
 
 
 .cancelButton, .editButton, .deleteButton1{
-  font-size: 12px;
+  font-size: 14px;
   background-color: #FEF1B7;
   padding: 0.3vw 3vw;
   border-radius: 10px;
@@ -357,7 +357,7 @@ label{
 }
 
 .standard-box{
-  width:98%;
+  width:95%;
   border-color: #f64c72;
   padding: 10px 20px 10px 20px;
   margin:5px auto 5px auto;

@@ -1,3 +1,65 @@
+/* start of script for uploading photos to aws s3 */
+
+function uploadFile(file, signedRequest, url){
+  const xhr = new XMLHttpRequest();
+  xhr.open('PUT', signedRequest);
+  xhr.onreadystatechange = () => {
+    console.log("uploadfile first");
+    if(xhr.readyState === 4){
+      console.log("uploadfile second");
+      if(xhr.status === 200){
+        console.log("uploadfile third");
+        document.getElementById('preview').src = url;
+        //document.getElementById('avatar-url').value = url;
+      }
+      else{
+        alert('Could not upload file.');
+      }
+    }
+  };
+  xhr.send(file);
+}
+
+
+    function getSignedRequest(file){
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', `/sign-s3?file-name=${file.name}&file-type=${file.type}`);
+  xhr.onreadystatechange = () => {
+    console.log("getsignedrequest first");
+    if(xhr.readyState === 4){
+      console.log("getsignedrequest second");
+      if(xhr.status === 200){
+        console.log("getsignedrequest third");
+        const response = JSON.parse(xhr.responseText);
+        console.log(response);
+        uploadFile(file, response.signedRequest, response.url);
+      }
+      else{
+        alert('Could not get signed URL.');
+      }
+    }
+  };
+  xhr.send();
+}
+
+
+
+    (() => {
+  document.getElementById("file-input").onchange = () => {
+    const files = document.getElementById('file-input').files;
+    const file = files[0];
+    if(file == null){
+      return alert('No file selected.');
+    }
+    getSignedRequest(file);
+  };
+})();
+
+
+/* end of script for uploading photos to aws s3 */
+
+/*start of script that allows user to show their password if required */
+
 function showHidePassword() {
   var x = document.getElementById("signUpPassword");
   if (x.type === "password") {
@@ -9,6 +71,8 @@ document.getElementById("passwordToggle").innerHTML = "Show password"
   }
   
 }
+ 
+ /*end of script that allows user to show their password if required */
 
 
 //code that controls modal behaviour of 'search' and 'new post' buttons on the navigation bar
