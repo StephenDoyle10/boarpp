@@ -168,7 +168,7 @@ app.post('/posts/store', async(req,res)=>{
 	else {
 		let image = req.files.image;
 		image.mv(path.resolve(__dirname, "public/img",image.name),async(error)=>{
-		await BlogPost.create({...req.body, image:"/img/"+image.name, userid:req.session.userId});
+		await BlogPost.create({...req.body, image:"https://boarpp.s3.eu-west-2.amazonaws.com/51gfqkZf4bL._AC_SX355_.jpg", userid:req.session.userId});
 		res.redirect('/')
 		});
 		}
