@@ -14,7 +14,9 @@ const bcrypt = require("bcrypt");
 const path = require("path");
 const fileUpload = require('express-fileupload');
 const flash= require('connect-flash');
-const AWS=require("aws-sdk");
+const aws=require("aws-sdk");
+aws.config.region = 'eu-west-2';
+const S3_BUCKET = process.env.S3_BUCKET;
 const fs = require("fs");
 
 // Define a connection with mongoose.connect which takes in the parameter host and database name.
@@ -171,6 +173,37 @@ app.post('/posts/store', async(req,res)=>{
 		});
 		}
 })
+
+
+app.get('/sign-s3', (req, res) => {
+console.log("app.get first");
+  const s3 = new aws.S3();
+  console.log("app.get second");
+  const fileName = req.query['file-name'];
+  console.log("app.get third");
+  const fileType = req.query['file-type'];
+  console.log("app.get forth");
+  const s3Params = {
+    Bucket: S3_BUCKET,
+    Key: fileName,
+    Expires: 60,
+    ContentType: fileType,
+    ACL: 'public-read'
+  };
+
+  s3.getSignedUrl('putObject', s3Params, (err, data) => {
+    if(err){
+      console.log(err);
+      return res.end();
+    }
+    const returnData = {
+      signedRequest: data,
+      url: `https://${S3_BUCKET}.s3.amazonaws.com/${fileName}`
+    };
+    res.write(JSON.stringify(returnData));
+    res.end();
+  });
+});
 
 
 app.post('/posts/delete', async(req, res)=>{
