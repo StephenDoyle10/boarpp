@@ -27,28 +27,36 @@
 	<div class="navModal">
 		<div class="modalContentStyle">
 	  		<div class="closeModal">&times;</div>
-	    	<form action="/posts/store" method="POST">
-				<textarea id="summernoteNav" name="body"></textarea>
-				<script>
-					$('#summernoteNav').summernote({
-				        placeholder: 'What have you been playing recently?',
-				        tabsize: 2,
-				        height: 100,
-				        toolbar: [
-				            [ 'style', [ 'style' ] ],
-				            [ 'font', [ 'bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear'] ],
-				            [ 'fontname', [ 'fontname' ] ],
-				            [ 'fontsize', [ 'fontsize' ] ],
-				            [ 'color', [ 'color' ] ],
-				            [ 'para', [ 'ol', 'ul', 'paragraph', 'height' ] ],
-				            [ 'table', [ 'table' ] ],
-				            [ 'insert', [ 'link'] ],
-				            [ 'view', [ 'undo', 'redo', 'fullscreen', 'codeview', 'help' ] ]
-				        ]
-				      });
-				</script>
-				<button type="submit" class="postbutton" id="sendMessageButton">Post</button>
-			</form>
+	    	<form action="/posts/store" method="POST" enctype="multipart/form-data">
+					<textarea id="summernoteNavbar" name="body"></textarea>
+					<script>
+						$('#summernoteNavbar').summernote({
+        placeholder: 'What have you been playing recently?',
+        tabsize: 2,
+        height: 100,
+        toolbar: [
+            [ 'style', [ 'style' ] ],
+            [ 'font', [ 'bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear'] ],
+            [ 'fontname', [ 'fontname' ] ],
+            [ 'fontsize', [ 'fontsize' ] ],
+            [ 'color', [ 'color' ] ],
+            [ 'para', [ 'ol', 'ul', 'paragraph', 'height' ] ],
+            [ 'table', [ 'table' ] ],
+            [ 'insert', [ 'link'] ],
+            [ 'view', [ 'undo', 'redo', 'fullscreen', 'codeview', 'help' ] ]
+        ]
+      });
+					</script>
+					
+
+					<label>Upload image (optional):</label>
+					<input type="file" id="file-input" name="image">
+					<img id="preview" src="">
+					<button type="submit" class="postbutton" id="sendMessageButton">Post</button>
+				
+
+
+				</form>
 		</div>
 	</div>
 

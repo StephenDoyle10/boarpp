@@ -48,7 +48,7 @@ function uploadFile(file, signedRequest, url){
 })();
 
 
-/* end of script for uploading photos to aws s3 */
+/*end of script for uploading photos to aws s3 */
 
 /*start of script that allows user to show their password if required */
 
