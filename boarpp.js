@@ -126,23 +126,26 @@ app.get("/",async (req, res)=>{
 // creates each individual blog post in its own specific url when the post is clicked on from the feed.
 app.get("/post/:id", async(req, res)=>{
 	const blogpost = await BlogPost.findById(req.params.id).populate('userid');
+	const replies = await Reply.find({});
+
 
 	const useridnumber=req.session.userId;
 	const loggedInUser = req.body.loggedInUser;
 	
 	res.render('post',{
-		blogpost, useridnumber, loggedInUser
+		blogpost, replies, useridnumber, loggedInUser
 	});
 
 });
 
 app.get("/user/:user", async (req, res)=>{
 	const blogposts = await BlogPost.find({userid:req.params.user}).populate('userid');
+	const replies = await Reply.find({});
 	const useridnumber=req.session.userId;
 	
 	const loggedInUser = req.body.loggedInUser;
 	res.render('searchresults',{
-		blogposts, useridnumber, loggedInUser
+		blogposts, replies, useridnumber, loggedInUser
 	});
 });
 
