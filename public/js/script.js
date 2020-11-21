@@ -4,13 +4,9 @@ function uploadFile(file, signedRequest, url){
   const xhr = new XMLHttpRequest();
   xhr.open('PUT', signedRequest);
   xhr.onreadystatechange = () => {
-    console.log("uploadfile first");
     if(xhr.readyState === 4){
-      console.log("uploadfile second");
       if(xhr.status === 200){
-        console.log("uploadfile third");
         document.getElementById('preview').src = url;
-        //document.getElementById('avatar-url').value = url;
       }
       else{
         alert('Could not upload file.');
@@ -25,13 +21,9 @@ function uploadFile(file, signedRequest, url){
   const xhr = new XMLHttpRequest();
   xhr.open('GET', `/sign-s3?file-name=${file.name}&file-type=${file.type}`);
   xhr.onreadystatechange = () => {
-    console.log("getsignedrequest first");
     if(xhr.readyState === 4){
-      console.log("getsignedrequest second");
       if(xhr.status === 200){
-        console.log("getsignedrequest third");
         const response = JSON.parse(xhr.responseText);
-        console.log(response);
         uploadFile(file, response.signedRequest, response.url);
       }
       else{
@@ -102,7 +94,7 @@ window.addEventListener("click", function(event) {
   if (event.target == modal[i]) {
     modal[i].style.display = "none";
   
-};
+}
 })
 
 
@@ -115,7 +107,6 @@ window.addEventListener("click", function(event) {
 
 //code that controls behaviour of modals that are on each blog post when the user wished to delete or edit their own post
 (function() {
-  console.log(document.getElementsByClassName("editModal").length)
 var len = document.getElementsByClassName("editModal").length;
 var editModal=[];
 var deleteModal=[];
@@ -162,14 +153,14 @@ window.addEventListener("click", function(event) {
   if (event.target == editModal[i]) {
     editModal[i].style.display = "none";
   
-};
+}
 })
 
 window.addEventListener("click", function(event) {
   if (event.target == deleteModal[i]) {
     deleteModal[i].style.display = "none";
   
-};
+}
 })
 
 }

@@ -1,7 +1,7 @@
 let port = process.env.PORT;
 if(port==null||port==""){
 	port=3000
-};
+}
 const express = require("express");
 const app = express();
 const ejs = require ("ejs");
@@ -88,7 +88,7 @@ app.post('/users/register', (req,res, next)=>{
 		}
 		else{req.session.userId=user._id;
 			res.redirect('/')
-	};})
+	}})
 });
 
 
@@ -97,12 +97,11 @@ app.use(async(req, res, next) =>{
 
         return res.render('landingpage');
     }   else{
-    	loggedInUserObj=await User.findById(req.session.userId);
-    	req.body.loggedInUser = loggedInUserObj.username;
-    	
-    	
-    	
-    	
+		loggedInUserObj=await User.findById(req.session.userId);
+		req.body.loggedInUser = loggedInUserObj.username;
+
+
+
         next();
     }
 });
@@ -160,17 +159,12 @@ app.post('/posts/store', async(req,res)=>{
 
 	//if user did not upload a photo with post:
 	if(!req.files||!req.files.image){
-		console.log(req);
-		console.log("no image");
 		await BlogPost.create({...req.body,userid:req.session.userId});
 		res.redirect('/') 
 		}
 
 	//if user uploaded a photo with their post:
 	else {
-		console.log("req files : "+req.files);
-		console.log("req.files.image : "+req.files.image);
-		console.log("req.files.image.name : "+req.files.image.name);
 		let image = req.files.image;
 		image.mv(path.resolve(__dirname, "public/img",image.name),async(error)=>{
 		await BlogPost.create({...req.body, image:`https://boarpp.s3.eu-west-2.amazonaws.com/${req.files.image.name}`, userid:req.session.userId});
@@ -181,13 +175,9 @@ app.post('/posts/store', async(req,res)=>{
 
 
 app.get('/sign-s3', (req, res) => {
-console.log("app.get first");
   const s3 = new aws.S3();
-  console.log("app.get second");
   const fileName = req.query['file-name'];
-  console.log("app.get third");
   const fileType = req.query['file-type'];
-  console.log("app.get forth");
   const s3Params = {
     Bucket: S3_BUCKET,
     Key: fileName,
