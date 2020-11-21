@@ -165,3 +165,49 @@ window.addEventListener("click", function(event) {
 
 }
 }());
+
+
+//code that controls behaviour of modals that are on each blog post when the user wished to delete or edit their own post
+(function() {
+var len = document.getElementsByClassName("replyModal").length;
+var replyModal=[];
+
+var replybtn = [];
+
+var close3=[];
+
+
+for(let i =0;i<len;i++){
+  replyModal[i]= document.getElementsByClassName("replyModal")[i];
+  
+  replybtn[i] = document.getElementsByClassName("replyButton")[i];
+  
+  close3[i] = document.getElementsByClassName("close3")[i];
+  
+  
+ 
+
+ replybtn[i].onclick = function() {
+  replyModal[i].style.display = "block";
+}
+
+
+// When the user clicks on <span> (x), close the modal
+close3[i].onclick = function() {
+  replyModal[i].style.display = "none";
+}
+
+
+
+// When the user clicks anywhere outside of the modal, close it
+window.addEventListener("click", function(event) {
+  if (event.target == replyModal[i]) {
+    replyModal[i].style.display = "none";
+  
+}
+})
+
+
+
+}
+}());

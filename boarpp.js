@@ -8,6 +8,7 @@ const ejs = require ("ejs");
 const mongoose = require("mongoose");
 const expressSession= require("express-session");
 const BlogPost = require('./models/blogpost.js');
+const Reply = require('./models/reply.js');
 const User= require("./models/user.js");
 const loginUserController = require("./controllers/loginUser.js")
 const bcrypt = require("bcrypt");
@@ -108,13 +109,14 @@ app.use(async(req, res, next) =>{
 
 
 app.get("/",async (req, res)=>{
-	
+	const replies = await Reply.find({});
 	const blogposts = await BlogPost.find({}).populate('userid');
+	
 	const useridnumber=req.session.userId;
 	const loggedInUser = req.body.loggedInUser;
 	
 	res.render('home',{
-		blogposts, useridnumber, loggedInUser
+		blogposts, replies, useridnumber, loggedInUser
 	});
 });
 
@@ -160,6 +162,7 @@ app.post('/posts/store', async(req,res)=>{
 	//if user did not upload a photo with post:
 	if(!req.files||!req.files.image){
 		await BlogPost.create({...req.body,userid:req.session.userId});
+		console.log(req.body);
 		res.redirect('/') 
 		}
 
@@ -214,6 +217,14 @@ app.post('/posts/edit', async(req, res)=>{
 	res.redirect('/')
 })
 
+app.post('/posts/reply', async(req,res)=>{
+		await Reply.create({...req.body,userid:req.session.userId});
+		console.log(req.body);
+
+		//await BlogPost.create({...req.body,userid:req.session.userId});
+		res.redirect('/') 
+		
+})
 
 app.post('/search', async (req, res)=>{
 

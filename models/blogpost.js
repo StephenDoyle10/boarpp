@@ -4,7 +4,6 @@ const Schema = mongoose.Schema;
 
 const BlogPostSchema=new Schema({
 	body:String,
-	username: String,
 	userid:{
 		type:mongoose.Schema.Types.ObjectId,
 		ref:'User',

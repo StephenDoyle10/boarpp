@@ -290,7 +290,7 @@ p{
 }
 
 
-.cancelButton, .editButton, .deleteButton1{
+.cancelButton, .editButton, .deleteButton1, .replyButton{
   font-size: 14px;
   background-color: #FEF1B7;
   padding: 0.3vw 3vw;
@@ -405,7 +405,7 @@ label{
 
 
 
- .modalStyle, .editModal, .deleteModal {
+ .modalStyle, .editModal, .deleteModal, .replyModal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
@@ -446,7 +446,7 @@ label{
 }
 
 /* The Close Button */
-.closeModal, .close1, .close2{
+.closeModal, .close1, .close2, .close3{
   color: #aaaaaa;
   text-align:right;
   margin-right: auto;
@@ -455,7 +455,7 @@ label{
   font-weight: bold;
 }
 
-.closeModal:hover, .closeModal:focus, .close1:hover,  .close1:focus, .close2:hover, .close2:focus{
+.closeModal:hover, .closeModal:focus, .close1:hover,  .close1:focus, .close2:hover, .close2:focus, .close3:hover, .close3:focus{
   color: #000;
   text-decoration: none;
   cursor: pointer;

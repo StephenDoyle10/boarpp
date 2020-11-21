@@ -27,14 +27,6 @@
 
 
 
-
-
-
-
-					<!--<img src="<%=blogposts[i].image%>">-->
-				
-
-
 					<% if(blogposts[i].userid._id==useridnumber){ %>
 				<div>
 					<span class="editButton">Edit</span>
@@ -44,10 +36,10 @@
 				<div class="editModal">
 				  <div class="modalContentStyle">
 				      <div class="close1">&times;</div>
-				        <form action="/posts/edit" method="POST">
-									<textarea id="summernoteEdit" name="body"><%-blogposts[i].body %></textarea>
+				        <form action="/posts/reply" method="POST">
+									<textarea id="summernoteEdit<%-i%>" name="body"><%-blogposts[i].body %></textarea>
 					<script>
-						$('#summernoteEdit').summernote({
+						$('#summernoteEdit<%-i%>').summernote({
         
         tabsize: 2,
         height: 100,
@@ -83,13 +75,66 @@
 						</div>
 					</div>
 				</div>
+
+
 				
-</div>
+
 			
 					<%} else {%>
+
+
+					<div>
+					<span class="replyButton">Reply</span>
+					
 				</div>
+
+				<div class="replyModal">
+				  <div class="modalContentStyle">
+				      <div class="close3">&times;</div>
+				        <form action="/posts/reply" method="POST">
+							<textarea id="summernoteReply<%-i%>" name="reply"></textarea>
+							<script>
+								$('#summernoteReply<%-i%>').summernote({
+		        
+								        tabsize: 2,
+								        height: 100,
+								        toolbar: [
+								            [ 'style', [ 'style' ] ],
+								            [ 'font', [ 'bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear'] ],
+								            [ 'fontname', [ 'fontname' ] ],
+								            [ 'fontsize', [ 'fontsize' ] ],
+								            [ 'color', [ 'color' ] ],
+								            [ 'para', [ 'ol', 'ul', 'paragraph', 'height' ] ],
+								            [ 'table', [ 'table' ] ],
+								            [ 'insert', [ 'link'] ],
+								            [ 'view', [ 'undo', 'redo', 'fullscreen', 'codeview', 'help' ] ]
+								        ]
+								      });
+							</script>
+							<button type="submit" class="postbutton" id="sendMessageButton" name="postid" value="<%=blogposts[i]._id%>">Confirm</button>
+							<input type="hidden" name="username" value="<%=loggedInUser%>">
+						</form>
+				  	</div>
+				</div>
+
 				
-					<%}} %>
+					<%}
+
+					for(var j=0;j<=replies.length-1;j++){
+					if(blogposts[i]._id.equals(replies[j].postid)){%>
+
+				<div class="reply-box">
+					<div class="usern"><%=replies[j].username%></div>
+					<div class="date"><%=replies[j].datePosted.toDateString()%></div>
+					<div class="postBody">
+						<%-replies[j].reply %>
+					</div>
+				</div>
+
+				<%} else{} }%>
+
+			</div><%} %>
+
 		</div>
 	</div>
 </div>
