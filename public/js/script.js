@@ -1,12 +1,63 @@
 /* start of script for uploading photos to aws s3 */
 
-function uploadFile(file, signedRequest, url){
+
+function uploadFileNAV(file, signedRequest, url){
   const xhr = new XMLHttpRequest();
   xhr.open('PUT', signedRequest);
   xhr.onreadystatechange = () => {
     if(xhr.readyState === 4){
       if(xhr.status === 200){
-        document.getElementById('previewNAV').src = url;
+        
+        document.getElementById('previewNAV').src =url;
+      }
+      else{
+        alert('Could not upload file.');
+      }
+    }
+  };
+  xhr.send(file);
+}
+
+
+    function getSignedRequestNAV(file){
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', `/sign-s3?file-name=${file.name}&file-type=${file.type}`);
+  xhr.onreadystatechange = () => {
+    if(xhr.readyState === 4){
+      if(xhr.status === 200){
+        const response = JSON.parse(xhr.responseText);
+        uploadFileNAV(file, response.signedRequest, response.url);
+      }
+      else{
+        alert('Could not get signed URL.');
+      }
+    }
+  };
+  xhr.send();
+}
+
+
+    (() => {
+  document.getElementById("file-inputNAV").onchange = () => {
+    console.log("yes");
+    const files = document.getElementById('file-inputNAV').files;
+    const file = files[0];
+    if(file == null){
+      return alert('No file selected.');
+    }
+    getSignedRequestNAV(file);
+  };
+})();
+
+
+
+function uploadFileNPL(file, signedRequest, url){
+  const xhr = new XMLHttpRequest();
+  xhr.open('PUT', signedRequest);
+  xhr.onreadystatechange = () => {
+    if(xhr.readyState === 4){
+      if(xhr.status === 200){
+        
         document.getElementById('previewNPL').src =url;
       }
       else{
@@ -18,14 +69,14 @@ function uploadFile(file, signedRequest, url){
 }
 
 
-    function getSignedRequest(file){
+    function getSignedRequestNPL(file){
   const xhr = new XMLHttpRequest();
   xhr.open('GET', `/sign-s3?file-name=${file.name}&file-type=${file.type}`);
   xhr.onreadystatechange = () => {
     if(xhr.readyState === 4){
       if(xhr.status === 200){
         const response = JSON.parse(xhr.responseText);
-        uploadFile(file, response.signedRequest, response.url);
+        uploadFileNPL(file, response.signedRequest, response.url);
       }
       else{
         alert('Could not get signed URL.');
@@ -35,20 +86,6 @@ function uploadFile(file, signedRequest, url){
   xhr.send();
 }
 
-
-
-    (() => {
-  document.getElementById("file-inputNAV").onchange = () => {
-    console.log("yes");
-    const files = document.getElementById('file-inputNAV').files;
-    const file = files[0];
-    if(file == null){
-      return alert('No file selected.');
-    }
-    getSignedRequest(file);
-  };
-})();
-
 (() => {
   document.getElementById("file-inputNPL").onchange = () => {
     console.log("yes");
@@ -57,7 +94,7 @@ function uploadFile(file, signedRequest, url){
     if(file == null){
       return alert('No file selected.');
     }
-    getSignedRequest(file);
+    getSignedRequestNPL(file);
   };
 })();
 
