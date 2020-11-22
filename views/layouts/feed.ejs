@@ -6,7 +6,6 @@
 				
 
 
-
 				<% for(var i=blogposts.length-1;i>=0;i--){ %>
 				
 				<div class="standard-box">
@@ -29,14 +28,46 @@
 
 					<% if(blogposts[i].userid._id==useridnumber){ %>
 				<div>
+					<span class="replyButton">Reply</span>
 					<span class="editButton">Edit</span>
 					<span class="deleteButton1">Delete</span>
 				</div>
 
+
+				<div class="replyModal">
+				  <div class="modalContentStyle">
+				      <div class="close3">&times;</div>
+				        <form action="/posts/reply" method="POST">
+							<textarea id="summernoteReply<%-i%>" name="reply"></textarea>
+							<script>
+								$('#summernoteReply<%-i%>').summernote({
+		        
+								        tabsize: 2,
+								        height: 100,
+								        toolbar: [
+								            [ 'style', [ 'style' ] ],
+								            [ 'font', [ 'bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear'] ],
+								            [ 'fontname', [ 'fontname' ] ],
+								            [ 'fontsize', [ 'fontsize' ] ],
+								            [ 'color', [ 'color' ] ],
+								            [ 'para', [ 'ol', 'ul', 'paragraph', 'height' ] ],
+								            [ 'table', [ 'table' ] ],
+								            [ 'insert', [ 'link'] ],
+								            [ 'view', [ 'undo', 'redo', 'fullscreen', 'codeview', 'help' ] ]
+								        ]
+								      });
+							</script>
+							<button type="submit" class="postbutton" id="sendMessageButton" name="postid" value="<%=blogposts[i]._id%>">Confirm</button>
+							<input type="hidden" name="username" value="<%=loggedInUser%>">
+						</form>
+				  	</div>
+				</div>
+
+				
 				<div class="editModal">
 				  <div class="modalContentStyle">
 				      <div class="close1">&times;</div>
-				        <form action="/posts/reply" method="POST">
+				        <form action="/posts/edit" method="POST">
 									<textarea id="summernoteEdit<%-i%>" name="body"><%-blogposts[i].body %></textarea>
 					<script>
 						$('#summernoteEdit<%-i%>').summernote({

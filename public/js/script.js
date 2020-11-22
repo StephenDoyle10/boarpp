@@ -37,8 +37,21 @@ function uploadFile(file, signedRequest, url){
 
 
     (() => {
-  document.getElementById("file-input").onchange = () => {
-    const files = document.getElementById('file-input').files;
+  document.getElementById("file-inputNAV").onchange = () => {
+    console.log("yes");
+    const files = document.getElementById('file-inputNAV').files;
+    const file = files[0];
+    if(file == null){
+      return alert('No file selected.');
+    }
+    getSignedRequest(file);
+  };
+})();
+
+(() => {
+  document.getElementById("file-inputNPL").onchange = () => {
+    console.log("yes");
+    const files = document.getElementById('file-inputNPL').files;
     const file = files[0];
     if(file == null){
       return alert('No file selected.');

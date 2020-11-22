@@ -125,7 +125,8 @@ app.get("/",async (req, res)=>{
 
 // creates each individual blog post in its own specific url when the post is clicked on from the feed.
 app.get("/post/:id", async(req, res)=>{
-	const blogpost = await BlogPost.findById(req.params.id).populate('userid');
+	const blogposts = await BlogPost.find({_id:req.params.id}).populate('userid');
+	console.log(blogposts.length);
 	const replies = await Reply.find({});
 
 
@@ -133,7 +134,7 @@ app.get("/post/:id", async(req, res)=>{
 	const loggedInUser = req.body.loggedInUser;
 	
 	res.render('post',{
-		blogpost, replies, useridnumber, loggedInUser
+		blogposts, replies, useridnumber, loggedInUser
 	});
 
 });
@@ -164,6 +165,7 @@ app.post('/posts/store', async(req,res)=>{
 
 	//if user did not upload a photo with post:
 	if(!req.files||!req.files.image){
+		console.log("no image");
 		await BlogPost.create({...req.body,userid:req.session.userId});
 		console.log(req.body);
 		res.redirect('/') 
@@ -171,6 +173,7 @@ app.post('/posts/store', async(req,res)=>{
 
 	//if user uploaded a photo with their post:
 	else {
+		console.log("wth image");
 		let image = req.files.image;
 		image.mv(path.resolve(__dirname, "public/img",image.name),async(error)=>{
 		await BlogPost.create({...req.body, image:`https://boarpp.s3.eu-west-2.amazonaws.com/${req.files.image.name}`, userid:req.session.userId});
@@ -181,9 +184,13 @@ app.post('/posts/store', async(req,res)=>{
 
 
 app.get('/sign-s3', (req, res) => {
+	console.log("app.get first");
   const s3 = new aws.S3();
+  console.log("app.get 2nd");
   const fileName = req.query['file-name'];
+  console.log("app.get 3rd");
   const fileType = req.query['file-type'];
+  console.log("app.get 4th");
   const s3Params = {
     Bucket: S3_BUCKET,
     Key: fileName,
