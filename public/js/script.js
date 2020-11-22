@@ -6,7 +6,8 @@ function uploadFile(file, signedRequest, url){
   xhr.onreadystatechange = () => {
     if(xhr.readyState === 4){
       if(xhr.status === 200){
-        document.getElementById('preview').src = url;
+        document.getElementById('previewNAV').src = url;
+        document.getElementById('previewNPL').src =url;
       }
       else{
         alert('Could not upload file.');
