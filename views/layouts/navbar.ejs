@@ -1,36 +1,49 @@
 <!doctype html>
 
-<div class="container-fluid" id = "sidenav">
-	
-	<div class="logo" id="logo">
-		<a href="/"><p id="title">BOARPP</p>
-		<h5 id="slogan">play the game, claim the fame!</h5></a>
-	</div>
-	
-	
 
-	<div class="postSearchButtons">
-		<div id="myBtn1" class="navButton newPostButton">New post</div>
-		<div id="myBtn2" class="navButton searchButton">Search</div>
-	</div>
-	
+<body>
 
 
-	<div class="logStatus">
-		<div class="loggedIn"><%-loggedInUser %></div>
-		<div class="navButton viewProfileButton"><a  href="/user/<%=useridnumber%>" >View profile</a></div>
-		<div class="navButton logOutButton"><a href="/auth/logout">Log out</a></div>
-	</div>
+
+<div class="topnav" id="myTopnav">
+  <a href="/" class="title" id="title">Boarpp</a>
+  
+  <% if(useridnumber==undefined) {%>
+  <a href="/">Home</a>
+  <a href="/about">What is Boarpp?</a>
+  <a href="#newPostModal" style="display:none;" class = "navButton" data-toggle="modal" data-target="#newPostModal">New post</a>
+  <a href="#searchModal" class = "navButton" data-toggle="modal" data-target="#searchModal">Search</a>
+  <a href="/auth/login">Log in</a>
+  <a href="/auth/register">Sign Up</a>
+  <%} else{%>
+<a href="/">Home</a> 
+
+  <a href="#newPostModal" class = "navButton" data-toggle="modal" data-target="#newPostModal">New post</a>
+  <a href="#searchModal" class = "navButton" data-toggle="modal" data-target="#searchModal">Search</a>
+  <div class="droppdown">
+    <button class="droppbtn"><%-loggedInUser %>
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="droppdown-content">
+      <a href="/user/<%=useridnumber%>">View profile</a>
+      <a href="/auth/logout">Log out</a>
+    </div>
+  </div> 
+  <a href="/about">What is Boarpp?</a>
 
 
-<!-- First modal -->
-	<div class="navModal">
-		<div class="modalContentStyle">
-	  		<div class="closeModal">&times;</div>
-	    	<form action="/posts/store" method="POST" enctype="multipart/form-data">
-					<textarea id="summernoteNavbar" name="body"></textarea>
-					<script>
-						$('#summernoteNavbar').summernote({
+
+<%}%>
+  <a href="javascript:void(0);" style="font-size:25px;" class="icon" onclick="myFunction()">&#9776;</a>
+</div>
+
+<div class="navModal" id="newPostModal">
+    <div class="modalContentStyle">
+        <div class="closeModal" data-dismiss="modal">&times;</div>
+        <form action="/posts/store" method="POST" enctype="multipart/form-data">
+          <textarea id="summernoteNavbar" name="body"></textarea>
+          <script>
+            $('#summernoteNavbar').summernote({
         placeholder: 'What have you been playing recently?',
         tabsize: 2,
         height: 100,
@@ -46,37 +59,43 @@
             [ 'view', [ 'undo', 'redo', 'fullscreen', 'codeview', 'help' ] ]
         ]
       });
-					</script>
-					
+          </script>
+          
 
-					<label>Upload image (optional):</label>
-					<input type="file" id="file-inputNAV">
-					<img id="previewNAV" src="">
-					<button type="submit" class="postbutton" id="sendMessageButton">Post</button>
-				
-
-
-				</form>
-		</div>
-	</div>
-
-	<!-- Second modal -->
-	<div class="navModal">
-		 <div class="modalContentStyle">
-		  	<div class="closeModal">&times;</div>
-		    <form action="/search" method="POST">
-				<label>Search blog posts:</label>
-				<input type="text" id="title2" name="search">
-				<button type="submit" class="postbutton" id="sendMessageButton">Search</button>
-			</form>
-		</div>
-	</div>
-	
+          <label>Upload image (optional):</label>
+          <input type="file" id="file-input" name="image">
+          <img id="preview" src="">
+          <button type="submit" class="postbutton" id="sendMessageButton">Post</button>
+        
 
 
-</div>
+        </form>
+    </div>
+  </div>
+
+<div class="navModal" id="searchModal">
+     <div class="modalContentStyle">
+        <div class="closeModal" data-dismiss="modal">&times;</div>
+        <form action="/search" method="POST">
+        <label>Search blog posts:</label>
+        <input type="text" id="title2" name="search">
+        <button type="submit" class="postbutton" id="sendMessageButton">Search</button>
+      </form>
+    </div>
+  </div>
 
 
+<script>
+function myFunction() {
+  var x = document.getElementById("myTopnav");
+  if (x.className === "topnav") {
+    x.className += " responsive";
+  } else {
+    x.className = "topnav";
+  }
+}
+</script>
 
+</body>
 
 

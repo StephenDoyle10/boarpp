@@ -111,7 +111,7 @@
 				
 
 			
-					<%} else {%>
+					<%} else if(useridnumber){%>
 
 
 					<div>
@@ -149,7 +149,21 @@
 				</div>
 
 				
-					<%}
+					<%} else{%>
+					<div class="col-sm nav-align" id="lpboxes">
+			
+			<a href="/auth/login">
+				<span class="button">Login</span>
+			</a> or 
+			<a href="/auth/register">
+				<span class="button">Sign up</span>
+			</a> to leave a reply.
+
+
+			
+		</div>
+
+				<%};
 
 					for(var j=0;j<=replies.length-1;j++){
 					if(blogposts[i]._id.equals(replies[j].postid)){%>

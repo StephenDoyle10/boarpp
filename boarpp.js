@@ -60,16 +60,34 @@ app.use(expressSession({
 }));
 app.use(flash());
 
+app.use(async(req, res, next) =>{
+    if (req.session.userId == undefined){
+    	next();
 
+        
+    }   else{
+		loggedInUserObj=await User.findById(req.session.userId);
+		req.body.loggedInUser = loggedInUserObj.username;
+
+
+
+        next();
+    }
+});
 
 
 app.get("/auth/login", (req, res)=>{
-	res.render('login')
+	const useridnumber=req.session.userId;
+	const loggedInUser = req.body.loggedInUser;
+	res.render('login', {
+		loggedInUser, useridnumber
+	})
 });
 
 app.get("/auth/register", (req, res)=>{
-	
-	res.render('register',{
+	const useridnumber=req.session.userId;
+	const loggedInUser = req.body.loggedInUser;
+	res.render('register',{useridnumber, loggedInUser,
 		errors:req.session.validationErrors
 		//errors:flash('validationErrors')
 	})
@@ -93,19 +111,7 @@ app.post('/users/register', (req,res, next)=>{
 });
 
 
-app.use(async(req, res, next) =>{
-    if (req.session.userId == undefined){
 
-        return res.render('landingpage');
-    }   else{
-		loggedInUserObj=await User.findById(req.session.userId);
-		req.body.loggedInUser = loggedInUserObj.username;
-
-
-
-        next();
-    }
-});
 
 
 app.get("/",async (req, res)=>{
@@ -114,6 +120,8 @@ app.get("/",async (req, res)=>{
 	
 	const useridnumber=req.session.userId;
 	const loggedInUser = req.body.loggedInUser;
+	console.log(useridnumber);
+
 	
 	res.render('home',{
 		blogposts, replies, useridnumber, loggedInUser
@@ -121,7 +129,13 @@ app.get("/",async (req, res)=>{
 });
 
 
-
+app.get("/about", (req, res)=>{
+	const useridnumber=req.session.userId;
+	const loggedInUser = req.body.loggedInUser;
+	res.render('about', {
+		loggedInUser, useridnumber
+	})
+});
 
 // creates each individual blog post in its own specific url when the post is clicked on from the feed.
 app.get("/post/:id", async(req, res)=>{
@@ -151,8 +165,16 @@ app.get("/user/:user", async (req, res)=>{
 });
 
 
-app.get('/practice', (req,res)=>{
-	res.render('practice')
+app.get('/practice', async(req,res)=>{
+const replies = await Reply.find({});
+	const blogposts = await BlogPost.find({}).populate('userid');
+	
+	const useridnumber=req.session.userId;
+	const loggedInUser = req.body.loggedInUser;
+	
+	res.render('practice',{
+		blogposts, replies, useridnumber, loggedInUser
+	});
 })
 
 app.get("/auth/logout", (req, res)=>{
@@ -165,7 +187,6 @@ app.post('/posts/store', async(req,res)=>{
 
 	//if user did not upload a photo with post:
 	if(!req.files||!req.files.image){
-		console.log("no image");
 		await BlogPost.create({...req.body,userid:req.session.userId});
 		console.log(req.body);
 		res.redirect('/') 
@@ -173,7 +194,6 @@ app.post('/posts/store', async(req,res)=>{
 
 	//if user uploaded a photo with their post:
 	else {
-		console.log("wth image");
 		let image = req.files.image;
 		image.mv(path.resolve(__dirname, "public/img",image.name),async(error)=>{
 		await BlogPost.create({...req.body, image:`https://boarpp.s3.eu-west-2.amazonaws.com/${req.files.image.name}`, userid:req.session.userId});
@@ -184,13 +204,9 @@ app.post('/posts/store', async(req,res)=>{
 
 
 app.get('/sign-s3', (req, res) => {
-	console.log("app.get first");
   const s3 = new aws.S3();
-  console.log("app.get 2nd");
   const fileName = req.query['file-name'];
-  console.log("app.get 3rd");
   const fileType = req.query['file-type'];
-  console.log("app.get 4th");
   const s3Params = {
     Bucket: S3_BUCKET,
     Key: fileName,
@@ -243,12 +259,12 @@ app.post('/search', async (req, res)=>{
 	let stringToGoIntoTheRegex = req.body.search;
 	let searchterm = new RegExp(stringToGoIntoTheRegex, 'i');
 	
-	
+	const replies = await Reply.find({});
 	const blogposts = await BlogPost.find({body:searchterm}).populate('userid');
 	const useridnumber=req.session.userId;
 	const loggedInUser = req.body.loggedInUser;
 	res.render('searchresults',{
-		blogposts, useridnumber, loggedInUser
+		replies, blogposts, useridnumber, loggedInUser
 	});
 });
 
@@ -267,8 +283,3 @@ app.use((req, res)=>{
 
 app.listen(port);
 console.log(`server listening on port ${port}`);
-
-
-
-
-

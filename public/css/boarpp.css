@@ -11,12 +11,160 @@ border:1px solid crimson;
 
 see: https://www.schemecolor.com/pastel-glass.php */
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @import url('https://fonts.googleapis.com/css2?family=Bungee+Shade&family=Rammetto+One&display=swap');
 
 @import url('https://fonts.googleapis.com/css2?family=Caveat+Brush&display=swap');
 
+
+body {margin:0;font-family:Arial}
+
+.topnav {
+  overflow: hidden;
+  
+  width:100%;
+  
+  padding: 0 0 0 0;
+  background-color: #F6A7A4;
+  z-index:2;
+  position: fixed;
+  top:0;
+  
+}
+
+.topnav a {
+  float: left;
+  display: block;
+  color: #FAFCEF;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 20px;
+}
+
+.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.topnav .icon {
+  display: none;
+}
+
+.droppdown {
+  float: left;
+  overflow: hidden;
+}
+
+.droppdown .droppbtn {
+  font-size: 20px;    
+  border: none;
+  outline: none;
+  color: #FAFCEF;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit;
+  margin: 0;
+}
+
+.droppdown-content {
+  display: none;
+  position: fixed;
+  background-color: #FAFCEF;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.droppdown-content a {
+  float: none;
+  color: #F6A7A4;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.topnav a:hover, .droppdown:hover .droppbtn {
+  background-color: #555;
+  color: white;
+}
+
+.droppdown-content a:hover {
+  background-color: #F6A7A4;
+  color: #FAFCEF;
+}
+
+.droppdown:hover .droppdown-content {
+  display: block;
+}
+
+@media screen and (max-width: 600px) {
+  .topnav a:not(:first-child), .droppdown .droppbtn {
+    display: none;
+  }
+  
+  .topnav a {
+    float: none;
+    display: block;
+    text-align: center;
+  }
+  
+  .topnav a.icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+    display:block;
+    
+  }
+}
+
+
+@media screen and (max-width: 600px) {
+  .topnav.responsive {z-index:2;
+  position: fixed;
+  top:0;}
+  .topnav.responsive .icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .topnav.responsive a {
+    float: none;
+    display: block;
+    text-align: center;
+  }
+  .topnav.responsive .droppdown {float: none;}
+  .topnav.responsive .droppdown-content {position: relative;}
+  .topnav.responsive .droppdown .droppbtn {
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+}
+
+
+
+
 body {
-  margin:0;
+  margin-top:75px;
   width:100%;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   font-size:16px;
@@ -108,7 +256,7 @@ p{
 }
 
 #lpboxes{
-  padding: 25px 0 5px 0;
+  padding: 25px 0 10px 0;
 }
 
 
@@ -142,12 +290,12 @@ p{
 
 #title {
   color: #FAFCEF;
-  font-size:50px;
-  margin: 0;
-  text-align:center;
+  font-size:45px;
+  margin: 0 20px 0 0;
+
   font-family: 'Bungee Shade', cursive;
   text-transform: uppercase;
-  padding:0;
+  padding:0 10px 0 10px;
 }
 
 
@@ -160,6 +308,26 @@ p{
   font-size:25px;
 }
 
+.aboutTitle{
+  color: #b06e6b;
+  text-align:center;
+  font-style:italic;
+  font-family: 'Caveat Brush', cursive;
+  font-size:40px;
+  padding: 25px 0 5px 0;
+}
+
+.aboutText{
+  color:#b06e6b;
+  padding: 10px 20px 0 20px;
+  text-align:justify;
+  font-size:16px;
+
+}
+
+.signupPromo{
+  text-align:justify;
+}
 
 .editbuttons{
   font-size:14px;
@@ -235,7 +403,7 @@ p{
   text-align: center;
   margin:30px;
 }
-.navButton {
+/*.navButton {
   margin:0px 0px 0px 0px;
   background-color: #FEF1B7;
   padding:0;
@@ -258,7 +426,7 @@ p{
    box-shadow: none;
    background-color:#FAFCEF;
 }
-
+*/
 
 
 .loggedIn {
@@ -433,7 +601,7 @@ label{
 
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
+  z-index: 9999; /* Sit on top */
   padding-top: 100px; /* Location of the box */
   left: 0;
   right:0;
@@ -472,8 +640,8 @@ label{
 
 
 body {
-    padding-top: 10px;
-  margin: 110px 0 0 0;
+  
+  
   
 
 }
@@ -558,7 +726,7 @@ body {
   width: 50%;
 }
 
-
+/*
 .navButton {
   margin:15px auto 15px auto;
   background-color: #FEF1B7;
@@ -572,7 +740,7 @@ body {
   height:30px;
   line-height: 30px;
 }
-  
+  */
 
 
 
@@ -599,8 +767,8 @@ body {
 @media (min-width:900px){
 
   body {
-    padding-top: 10px;
-  margin: 110px 0 0 0;
+    
+  
   
 
 }
@@ -685,7 +853,7 @@ body {
   width: 50%;
 }
 
-
+/*
 .navButton {
   margin:15px auto 15px auto;
   background-color: #FEF1B7;
@@ -700,7 +868,7 @@ body {
   line-height: 30px;
 }
   
-
+*/
 
 
 .loggedIn {
