@@ -204,6 +204,7 @@ app.post('/posts/store', async(req,res)=>{
 
 
 app.get('/sign-s3', (req, res) => {
+	console.log("get signs3")
   const s3 = new aws.S3();
   const fileName = req.query['file-name'];
   const fileType = req.query['file-type'];

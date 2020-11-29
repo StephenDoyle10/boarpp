@@ -1,66 +1,5 @@
 /* start of script for uploading photos to aws s3 */
 
-function uploadFileNPL(file, signedRequest, url){
-  console.log("stage3");
-  const xhr = new XMLHttpRequest();
-  xhr.open('PUT', signedRequest);
-  xhr.onreadystatechange = () => {
-    if(xhr.readyState === 4){
-      if(xhr.status === 200){
-        document.getElementById('previewNPL').srcNPL = url;
-      }
-      else{
-        alert('Could not upload file.');
-      }
-    }
-  };
-  xhr.send(file);
-}
-
-
-    function getSignedRequestNPL(file){
-      console.log("stage2");
-  const xhr = new XMLHttpRequest();
-  xhr.open('GET', `/sign-s3?file-name=${file.name}&file-type=${file.type}`);
-  xhr.onreadystatechange = () => {
-    if(xhr.readyState === 4){
-      if(xhr.status === 200){
-        const response = JSON.parse(xhr.responseText);
-        uploadFileNPL(file, response.signedRequest, response.url);
-      }
-      else{
-        alert('Could not get signed URL.');
-      }
-    }
-  };
-  xhr.send();
-}
-
-
-
-    (() => {
-  document.getElementById("file-inputNPL").onchange = () => {
-    console.log("stage1");
-    const files = document.getElementById('file-inputNPL').files;
-    const file = files[0];
-    if(file == null){
-      return alert('No file selected.');
-    }
-    getSignedRequestNPL(file);
-  };
-})();
-
-
-
-
-
-
-
-
-
-
-
-
 
 function uploadFileNAV(file, signedRequest, url){
   const xhr = new XMLHttpRequest();
@@ -68,7 +7,8 @@ function uploadFileNAV(file, signedRequest, url){
   xhr.onreadystatechange = () => {
     if(xhr.readyState === 4){
       if(xhr.status === 200){
-        document.getElementById('previewNAV').srcNAV = url;
+        
+        document.getElementById('previewNAV').src =url;
       }
       else{
         alert('Could not upload file.');
@@ -97,15 +37,64 @@ function uploadFileNAV(file, signedRequest, url){
 }
 
 
-
     (() => {
   document.getElementById("file-inputNAV").onchange = () => {
+    console.log("yes");
     const files = document.getElementById('file-inputNAV').files;
     const file = files[0];
     if(file == null){
       return alert('No file selected.');
     }
     getSignedRequestNAV(file);
+  };
+})();
+
+
+
+function uploadFileNPL(file, signedRequest, url){
+  const xhr = new XMLHttpRequest();
+  xhr.open('PUT', signedRequest);
+  xhr.onreadystatechange = () => {
+    if(xhr.readyState === 4){
+      if(xhr.status === 200){
+        
+        document.getElementById('previewNPL').src =url;
+      }
+      else{
+        alert('Could not upload file.');
+      }
+    }
+  };
+  xhr.send(file);
+}
+
+
+    function getSignedRequestNPL(file){
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', `/sign-s3?file-name=${file.name}&file-type=${file.type}`);
+  xhr.onreadystatechange = () => {
+    if(xhr.readyState === 4){
+      if(xhr.status === 200){
+        const response = JSON.parse(xhr.responseText);
+        uploadFileNPL(file, response.signedRequest, response.url);
+      }
+      else{
+        alert('Could not get signed URL.');
+      }
+    }
+  };
+  xhr.send();
+}
+
+(() => {
+  document.getElementById("file-inputNPL").onchange = () => {
+    console.log("yes");
+    const files = document.getElementById('file-inputNPL').files;
+    const file = files[0];
+    if(file == null){
+      return alert('No file selected.');
+    }
+    getSignedRequestNPL(file);
   };
 })();
 
