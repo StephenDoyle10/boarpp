@@ -1,6 +1,7 @@
 /* start of script for uploading photos to aws s3 */
 
 function uploadFileNPL(file, signedRequest, url){
+  console.log("stage3");
   const xhr = new XMLHttpRequest();
   xhr.open('PUT', signedRequest);
   xhr.onreadystatechange = () => {
@@ -18,6 +19,7 @@ function uploadFileNPL(file, signedRequest, url){
 
 
     function getSignedRequestNPL(file){
+      console.log("stage2");
   const xhr = new XMLHttpRequest();
   xhr.open('GET', `/sign-s3?file-name=${file.name}&file-type=${file.type}`);
   xhr.onreadystatechange = () => {
@@ -38,6 +40,7 @@ function uploadFileNPL(file, signedRequest, url){
 
     (() => {
   document.getElementById("file-inputNPL").onchange = () => {
+    console.log("stage1");
     const files = document.getElementById('file-inputNPL').files;
     const file = files[0];
     if(file == null){

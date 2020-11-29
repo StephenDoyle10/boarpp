@@ -216,6 +216,7 @@ app.get('/sign-s3', (req, res) => {
   };
 
   s3.getSignedUrl('putObject', s3Params, (err, data) => {
+  	console.log("getsignedurl");
     if(err){
       console.log(err);
       return res.end();
