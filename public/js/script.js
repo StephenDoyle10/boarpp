@@ -1,12 +1,12 @@
 /* start of script for uploading photos to aws s3 */
 
-function uploadFile(file, signedRequest, url){
+function uploadFileNPL(file, signedRequest, url){
   const xhr = new XMLHttpRequest();
   xhr.open('PUT', signedRequest);
   xhr.onreadystatechange = () => {
     if(xhr.readyState === 4){
       if(xhr.status === 200){
-        document.getElementById('preview').src = url;
+        document.getElementById('previewNPL').srcNPL = url;
       }
       else{
         alert('Could not upload file.');
@@ -17,14 +17,14 @@ function uploadFile(file, signedRequest, url){
 }
 
 
-    function getSignedRequest(file){
+    function getSignedRequestNPL(file){
   const xhr = new XMLHttpRequest();
   xhr.open('GET', `/sign-s3?file-name=${file.name}&file-type=${file.type}`);
   xhr.onreadystatechange = () => {
     if(xhr.readyState === 4){
       if(xhr.status === 200){
         const response = JSON.parse(xhr.responseText);
-        uploadFile(file, response.signedRequest, response.url);
+        uploadFileNPL(file, response.signedRequest, response.url);
       }
       else{
         alert('Could not get signed URL.');
@@ -37,13 +37,72 @@ function uploadFile(file, signedRequest, url){
 
 
     (() => {
-  document.getElementById("file-input").onchange = () => {
-    const files = document.getElementById('file-input').files;
+  document.getElementById("file-inputNPL").onchange = () => {
+    const files = document.getElementById('file-inputNPL').files;
     const file = files[0];
     if(file == null){
       return alert('No file selected.');
     }
-    getSignedRequest(file);
+    getSignedRequestNPL(file);
+  };
+})();
+
+
+
+
+
+
+
+
+
+
+
+
+
+function uploadFileNAV(file, signedRequest, url){
+  const xhr = new XMLHttpRequest();
+  xhr.open('PUT', signedRequest);
+  xhr.onreadystatechange = () => {
+    if(xhr.readyState === 4){
+      if(xhr.status === 200){
+        document.getElementById('previewNAV').srcNAV = url;
+      }
+      else{
+        alert('Could not upload file.');
+      }
+    }
+  };
+  xhr.send(file);
+}
+
+
+    function getSignedRequestNAV(file){
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', `/sign-s3?file-name=${file.name}&file-type=${file.type}`);
+  xhr.onreadystatechange = () => {
+    if(xhr.readyState === 4){
+      if(xhr.status === 200){
+        const response = JSON.parse(xhr.responseText);
+        uploadFileNAV(file, response.signedRequest, response.url);
+      }
+      else{
+        alert('Could not get signed URL.');
+      }
+    }
+  };
+  xhr.send();
+}
+
+
+
+    (() => {
+  document.getElementById("file-inputNAV").onchange = () => {
+    const files = document.getElementById('file-inputNAV').files;
+    const file = files[0];
+    if(file == null){
+      return alert('No file selected.');
+    }
+    getSignedRequestNAV(file);
   };
 })();
 
