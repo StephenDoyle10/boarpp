@@ -10,7 +10,15 @@ const expressSession= require("express-session");
 const BlogPost = require('./models/blogpost.js');
 const Reply = require('./models/reply.js');
 const User= require("./models/user.js");
-const loginUserController = require("./controllers/loginUser.js")
+
+const loginUserController = require("./controllers/loginUser.js");
+const pageNotFoundController = require("./controllers/pageNotFound.js");
+const searchResultsController = require("./controllers/searchResults.js");
+const newReplyController = require("./controllers/newReply.js");
+const editPostController = require("./controllers/editPost.js");
+const deletePostController = require("./controllers/deletePost.js");
+const newPostController = require("./controllers/newPost.js");
+
 const bcrypt = require("bcrypt");
 const path = require("path");
 const fileUpload = require('express-fileupload');
@@ -120,7 +128,6 @@ app.get("/",async (req, res)=>{
 	
 	const useridnumber=req.session.userId;
 	const loggedInUser = req.body.loggedInUser;
-	console.log(useridnumber);
 
 	
 	res.render('home',{
@@ -140,7 +147,6 @@ app.get("/about", (req, res)=>{
 // creates each individual blog post in its own specific url when the post is clicked on from the feed.
 app.get("/post/:id", async(req, res)=>{
 	const blogposts = await BlogPost.find({_id:req.params.id}).populate('userid');
-	console.log(blogposts.length);
 	const replies = await Reply.find({});
 
 
@@ -183,28 +189,10 @@ app.get("/auth/logout", (req, res)=>{
 	})
 })
 
-app.post('/posts/store', async(req,res)=>{
-
-	//if user did not upload a photo with post:
-	if(!req.files||!req.files.image){
-		await BlogPost.create({...req.body,userid:req.session.userId});
-		console.log(req.body);
-		res.redirect('/') 
-		}
-
-	//if user uploaded a photo with their post:
-	else {
-		let image = req.files.image;
-		image.mv(path.resolve(__dirname, "public/img",image.name),async(error)=>{
-		await BlogPost.create({...req.body, image:`https://boarpp.s3.eu-west-2.amazonaws.com/${req.files.image.name}`, userid:req.session.userId});
-		res.redirect('/')
-		});
-		}
-})
+app.post('/posts/store', newPostController)
 
 
 app.get('/sign-s3', (req, res) => {
-	console.log("get signs3")
   const s3 = new aws.S3();
   const fileName = req.query['file-name'];
   const fileType = req.query['file-type'];
@@ -217,9 +205,7 @@ app.get('/sign-s3', (req, res) => {
   };
 
   s3.getSignedUrl('putObject', s3Params, (err, data) => {
-  	console.log("getsignedurl");
     if(err){
-      console.log(err);
       return res.end();
     }
     const returnData = {
@@ -232,43 +218,13 @@ app.get('/sign-s3', (req, res) => {
 });
 
 
-app.post('/posts/delete', async(req, res)=>{
-	
-	await BlogPost.findByIdAndDelete(req.body.delete_post);
+app.post('/posts/delete', deletePostController)
 
-	res.redirect('/')
-})
+app.post('/posts/edit', editPostController)
 
-app.post('/posts/edit', async(req, res)=>{
-	
-	await BlogPost.findByIdAndUpdate(req.body.edit_post, {body:req.body.body})
-	res.redirect('/')
-})
+app.post('/posts/reply', newReplyController)
 
-app.post('/posts/reply', async(req,res)=>{
-		await Reply.create({...req.body,userid:req.session.userId});
-		console.log(req.body);
-
-		//await BlogPost.create({...req.body,userid:req.session.userId});
-		res.redirect('/') 
-		
-})
-
-app.post('/search', async (req, res)=>{
-
-	// The following two line convert req.body.search into a regex expression so it can be used in the .find function that follows.
-	// 'i' passed at the end of the RegExp argument informs program to ignore case sensitivity
-	let stringToGoIntoTheRegex = req.body.search;
-	let searchterm = new RegExp(stringToGoIntoTheRegex, 'i');
-	
-	const replies = await Reply.find({});
-	const blogposts = await BlogPost.find({body:searchterm}).populate('userid');
-	const useridnumber=req.session.userId;
-	const loggedInUser = req.body.loggedInUser;
-	res.render('searchresults',{
-		replies, blogposts, useridnumber, loggedInUser
-	});
-});
+app.post('/search', searchResultsController);
 
 
 
@@ -276,11 +232,7 @@ app.post('/search', async (req, res)=>{
 // and if it cannot find one that matches, it will rended pagenotfound.
 
 
-app.use((req, res)=>{
-	const useridnumber=req.session.userId;
-	const loggedInUser = req.body.loggedInUser;
-	res.render('pagenotfound', {useridnumber, loggedInUser})
-});
+app.use(pageNotFoundController);
 
 
 app.listen(port);
