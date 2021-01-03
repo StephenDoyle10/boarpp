@@ -18,6 +18,7 @@ const newReplyController = require("./controllers/newReply.js");
 const editPostController = require("./controllers/editPost.js");
 const deletePostController = require("./controllers/deletePost.js");
 const newPostController = require("./controllers/newPost.js");
+const signS3Controller=require("./controllers/signS3.js")
 
 const bcrypt = require("bcrypt");
 const path = require("path");
@@ -189,40 +190,15 @@ app.get("/auth/logout", (req, res)=>{
 	})
 })
 
-app.post('/posts/store', newPostController)
+app.post('/posts/store', newPostController);
 
+app.get('/sign-s3', signS3Controller);
 
-app.get('/sign-s3', (req, res) => {
-  const s3 = new aws.S3();
-  const fileName = req.query['file-name'];
-  const fileType = req.query['file-type'];
-  const s3Params = {
-    Bucket: S3_BUCKET,
-    Key: fileName,
-    Expires: 60,
-    ContentType: fileType,
-    ACL: 'public-read'
-  };
+app.post('/posts/delete', deletePostController);
 
-  s3.getSignedUrl('putObject', s3Params, (err, data) => {
-    if(err){
-      return res.end();
-    }
-    const returnData = {
-      signedRequest: data,
-      url: `https://${S3_BUCKET}.s3.amazonaws.com/${fileName}`
-    };
-    res.write(JSON.stringify(returnData));
-    res.end();
-  });
-});
+app.post('/posts/edit', editPostController);
 
-
-app.post('/posts/delete', deletePostController)
-
-app.post('/posts/edit', editPostController)
-
-app.post('/posts/reply', newReplyController)
+app.post('/posts/reply', newReplyController);
 
 app.post('/search', searchResultsController);
 
