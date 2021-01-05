@@ -11,6 +11,7 @@ const BlogPost = require('./models/blogpost.js');
 const Reply = require('./models/reply.js');
 const User= require("./models/user.js");
 
+
 const loginUserController = require("./controllers/loginUser.js");
 const pageNotFoundController = require("./controllers/pageNotFound.js");
 const searchResultsController = require("./controllers/searchResults.js");
@@ -18,7 +19,16 @@ const newReplyController = require("./controllers/newReply.js");
 const editPostController = require("./controllers/editPost.js");
 const deletePostController = require("./controllers/deletePost.js");
 const newPostController = require("./controllers/newPost.js");
-const signS3Controller=require("./controllers/signS3.js")
+const signS3Controller=require("./controllers/signS3.js");
+const logOutController=require("./controllers/logOut.js");
+const userPostsController=require("./controllers/userPosts.js");
+const postIDController=require("./controllers/postID.js");
+const aboutPageRouteController=require("./controllers/aboutPageRoute.js");
+const homePageRouteController=require("./controllers/homePageRoute.js");
+const registerController=require("./controllers/register.js");
+const loginPageRouteController=require("./controllers/loginPageRoute.js");
+const signUpPageRouteController=require("./controllers/signUpPageRoute.js");
+
 
 const bcrypt = require("bcrypt");
 const path = require("path");
@@ -72,142 +82,60 @@ app.use(flash());
 app.use(async(req, res, next) =>{
     if (req.session.userId == undefined){
     	next();
-
-        
-    }   else{
+		}   else{
 		loggedInUserObj=await User.findById(req.session.userId);
 		req.body.loggedInUser = loggedInUserObj.username;
-
-
-
         next();
     }
 });
 
+//login get
+app.get("/auth/login", loginPageRouteController);
 
-app.get("/auth/login", (req, res)=>{
-	const useridnumber=req.session.userId;
-	const loggedInUser = req.body.loggedInUser;
-	res.render('login', {
-		loggedInUser, useridnumber
-	})
-});
+//register get
+app.get("/auth/register", signUpPageRouteController);
 
-app.get("/auth/register", (req, res)=>{
-	const useridnumber=req.session.userId;
-	const loggedInUser = req.body.loggedInUser;
-	res.render('register',{useridnumber, loggedInUser,
-		errors:req.session.validationErrors
-		//errors:flash('validationErrors')
-	})
-});
-
+//login post
 app.post('/users/login', loginUserController);
 
-app.post('/users/register', (req,res, next)=>{
-	User.create(req.body, (error, user)=>{
-		if(error){
-			
-			const validationErrors = Object.keys(error.errors).map(key=>error.errors[key].message);
-			req.session.validationErrors=validationErrors;
-			//req.flash('validationErrors', validationErrors);
-			
-			return res.redirect('/auth/register');
-		}
-		else{req.session.userId=user._id;
-			res.redirect('/')
-	}})
-});
+//register post
+app.post('/users/register', registerController);
 
+//route to home page
+app.get("/",homePageRouteController);
 
-
-
-
-app.get("/",async (req, res)=>{
-	const replies = await Reply.find({});
-	const blogposts = await BlogPost.find({}).populate('userid');
-	
-	const useridnumber=req.session.userId;
-	const loggedInUser = req.body.loggedInUser;
-
-	
-	res.render('home',{
-		blogposts, replies, useridnumber, loggedInUser
-	});
-});
-
-
-app.get("/about", (req, res)=>{
-	const useridnumber=req.session.userId;
-	const loggedInUser = req.body.loggedInUser;
-	res.render('about', {
-		loggedInUser, useridnumber
-	})
-});
+//route to about page
+app.get("/about", aboutPageRouteController);
 
 // creates each individual blog post in its own specific url when the post is clicked on from the feed.
-app.get("/post/:id", async(req, res)=>{
-	const blogposts = await BlogPost.find({_id:req.params.id}).populate('userid');
-	const replies = await Reply.find({});
+app.get("/post/:id", postIDController);
 
+//click on a username to be directed to another page that contains all that user's posts
+app.get("/user/:user", userPostsController);
 
-	const useridnumber=req.session.userId;
-	const loggedInUser = req.body.loggedInUser;
-	
-	res.render('post',{
-		blogposts, replies, useridnumber, loggedInUser
-	});
+//logout
+app.get("/auth/logout", logOutController);
 
-});
-
-app.get("/user/:user", async (req, res)=>{
-	const blogposts = await BlogPost.find({userid:req.params.user}).populate('userid');
-	const replies = await Reply.find({});
-	const useridnumber=req.session.userId;
-	
-	const loggedInUser = req.body.loggedInUser;
-	res.render('searchresults',{
-		blogposts, replies, useridnumber, loggedInUser
-	});
-});
-
-
-app.get('/practice', async(req,res)=>{
-const replies = await Reply.find({});
-	const blogposts = await BlogPost.find({}).populate('userid');
-	
-	const useridnumber=req.session.userId;
-	const loggedInUser = req.body.loggedInUser;
-	
-	res.render('practice',{
-		blogposts, replies, useridnumber, loggedInUser
-	});
-})
-
-app.get("/auth/logout", (req, res)=>{
-	req.session.destroy(()=>{
-		res.redirect('/')
-	})
-})
-
+//submit a new post
 app.post('/posts/store', newPostController);
 
+//send picture to amazon s3 storage
 app.get('/sign-s3', signS3Controller);
 
+//delete post
 app.post('/posts/delete', deletePostController);
 
+//edit post
 app.post('/posts/edit', editPostController);
 
+//submit a reply/comment to a post
 app.post('/posts/reply', newReplyController);
 
+//search all posts for a particular keyword
 app.post('/search', searchResultsController);
-
-
 
 // With this middleware-like route, Express will go through all the routes 
 // and if it cannot find one that matches, it will rended pagenotfound.
-
-
 app.use(pageNotFoundController);
 
 

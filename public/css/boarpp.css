@@ -80,7 +80,6 @@ p{
 
 
 .topnav {
-  overflow: hidden;
   
   width:100%;
   
@@ -118,7 +117,7 @@ p{
 
 .droppdown {
   float: left;
-  overflow: hidden;
+  
 }
 
 .droppdown:hover .droppdown-content {
@@ -134,6 +133,7 @@ p{
   background-color: inherit;
   font-family: inherit;
   margin: 0;
+  
 }
 
 .droppdown-content {
@@ -142,7 +142,7 @@ p{
   background-color: #FAFCEF;
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
+  z-index: 2;
 }
 
 .droppdown-content a {
@@ -311,30 +311,7 @@ p{
   text-align: center;
   margin:30px;
 }
-/*.navButton {
-  margin:0px 0px 0px 0px;
-  background-color: #FEF1B7;
-  padding:0;
-  text-align: center;
-  border:1px solid #F6A7A4;
-  cursor: pointer;
-  font-size: 22px;
-  color: #F6A7A4;
-  width:50%;
-  height:40px;
-  display:inline-block;
-}
 
-.navButton:hover {
-  background-color: #FEE8E2;
-}
-
-.navButton:active{
-   outline: none !important;
-   box-shadow: none;
-   background-color:#FAFCEF;
-}
-*/
 
 
 .loggedIn {
@@ -482,17 +459,17 @@ label{
 
 
  .modalStyle, .editModal, .deleteModal, .replyModal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
+  display: none;
+  position: fixed;
+  z-index: 1;
+  padding-top: 100px;
   left: 0;
   top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
 }
 
 
@@ -507,18 +484,18 @@ label{
 
 .navModal {
 
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 9999; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  padding-top: 100px;
   left: 0;
   right:0;
   top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
 }
 
 /* The Close Button */
@@ -648,7 +625,7 @@ label{
               width:40%!important;
 
 
-            }}
+            }
 
  
 
@@ -677,12 +654,12 @@ label{
 }
 
 
-/*View on large screens (1000px+)*/
+/*View on large screens (900px+)*/
 @media (min-width:900px){
 
 
 .modalContentStyle{
-  width: 50%;
+  width: 50%!important;
 }
 
 .loggedIn {
