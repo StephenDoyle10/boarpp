@@ -15,11 +15,14 @@ see: https://www.schemecolor.com/pastel-glass.php */
 
 @import url('https://fonts.googleapis.com/css2?family=Caveat+Brush&display=swap');
 
+
+
+
 body {
-  margin:0;
+  margin-top:75px;
   width:100%;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  font-size:14px;
+  font-size:16px;
   background-color: #FEF1B7;
   color:black;
 
@@ -31,7 +34,7 @@ img {
 }
 
 a {
-  color: #000000;
+  color:inherit;
   text-decoration: none;
 }
 
@@ -55,7 +58,7 @@ textarea:focus{
 
 textarea::placeholder {
   font-style: italic;
-  font-size:14px;
+  font-size:16px;
 }
 
 input{
@@ -75,36 +78,105 @@ p{
   padding:0;
 }
 
-#lp {
-  height: 100%;
+
+.topnav {
+  
   width:100%;
-  padding: 150px 0 5px 0;
-  background-color: #f6a7a4;
-  z-index:1;
-  position: absolute;
+  
+  padding: 0 0 0 0;
+  background-color: #F6A7A4;
+  z-index:2;
+  position: fixed;
   top:0;
+  
 }
 
-#lptitle{
+.topnav a {
+  float: left;
+  display: block;
   color: #FAFCEF;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 20px;
+}
+
+.topnav .icon {
+  display: none;
+}
+
+.topnav a:hover, .droppdown:hover .droppbtn {
+  background-color: #555;
+  color: white;
+}
+
+.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.droppdown {
+  float: left;
+  
+}
+
+.droppdown:hover .droppdown-content {
+  display: block;
+}
+
+.droppdown .droppbtn {
+  font-size: 20px;    
+  border: none;
+  outline: none;
+  color: #FAFCEF;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit;
   margin: 0;
-  font-family: 'Bungee Shade', cursive;
-  text-transform: uppercase;
-  font-size: 50px
+  
 }
 
-#lpslogan{
+.droppdown-content {
+  display: none;
+  position: fixed;
+  background-color: #FAFCEF;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 2;
+}
+
+.droppdown-content a {
+  float: none;
+  color: #F6A7A4;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.droppdown-content a:hover {
+  background-color: #F6A7A4;
   color: #FAFCEF;
-  font-style:italic;
-  font-family: 'Caveat Brush', cursive;
-  font-size:40px;
-  padding: 25px 0 5px 0;
-
 }
 
-#lpboxes{
-  padding: 25px 0 5px 0;
+
+
+
+
+
+
+
+
+
+
+
+
+
+.passwordToggle{
+  padding:5px 0 5px 0;
+  cursor: pointer;
 }
+
 
 
 .row{
@@ -120,29 +192,18 @@ p{
   margin-left:0;
 }
 
-#sidenav {
-  width: 100%;
-  height: 102px;
-  margin:auto;
-  padding: 0;
-  background-color: #F6A7A4;
-  
-}
-
-
-
 .logo{
   display:none;
 }
 
 #title {
   color: #FAFCEF;
-  font-size:50px;
-  margin: 0;
-  text-align:center;
+  font-size:45px;
+  margin: 0 20px 0 0;
+
   font-family: 'Bungee Shade', cursive;
   text-transform: uppercase;
-  padding:0;
+  padding:0 10px 0 10px;
 }
 
 
@@ -155,9 +216,29 @@ p{
   font-size:25px;
 }
 
+.aboutTitle{
+  color: #b06e6b;
+  text-align:center;
+  font-style:italic;
+  font-family: 'Caveat Brush', cursive;
+  font-size:40px;
+  padding: 25px 0 5px 0;
+}
+
+.aboutText{
+  color:#b06e6b;
+  padding: 10px 20px 0 20px;
+  text-align:justify;
+  font-size:16px;
+
+}
+
+.signupPromo{
+  text-align:justify;
+}
 
 .editbuttons{
-  font-size:12px;
+  font-size:14px;
   font-style:italic;
 }
 
@@ -189,6 +270,7 @@ p{
 .button {
   background-color: #FEF1B7;
   padding: 0.3vw 3vw;
+  font-size:18px;
   border-radius: 10px;
   cursor: pointer;
   display: inline-block;
@@ -206,7 +288,8 @@ p{
    background-color:#FAFCEF;
 }
 
-.newSearch{
+.postSearchButtons{
+  width:100%;
   margin:0;
   padding:0;
   text-align: center;
@@ -215,70 +298,41 @@ p{
   z-index: 1;
 }
 
-.newPost{
+.newPostButton{
+  width:50%;
   float:left;
+}
+
+.searchButton{
+  width:50%;
 }
 
 .logStatus{
   text-align: center;
   margin:30px;
 }
-.navButton {
-  margin:0px 0px 0px 0px;
-  background-color: #FEF1B7;
-  padding:0;
-  text-align: center;
-  border:1px solid #F6A7A4;
-  cursor: pointer;
-  font-size: 16px;
-  color: #F6A7A4;
-  width:50%;
-  height:30px;
-  display:inline-block;
-}
 
-.navButton:hover {
-  background-color: #FEE8E2;
-}
 
-.navButton:active{
-   outline: none !important;
-   box-shadow: none;
-   background-color:#FAFCEF;
-}
-
-.loggedInText{
-  margin:0 auto 0 auto;
-  padding-top: 0;
-  display:inline-block;
-
-}
 
 .loggedIn {
-  padding: 0.3vw 3vw;
+  padding: 13px 0 5px 0;
   color: #FAFCEF;
   font-style:italic;
   text-align:center;
   font-family: 'Caveat Brush', cursive;
-  font-size:25px;
+  font-size:35px;
 }
 
-.loggedIn:hover {
-  background-color: #FEE8E2;
-}
-
-.loggedIn:active{
-   outline: none !important;
-   box-shadow: none;
-   background-color:#FAFCEF;
-}
-
-.logOutBtn{
+.viewProfileButton, .logOutButton {
   border-radius: 10px;
+  display:block;
+  margin:auto auto 15px auto;
 }
+
+
 
 .deleteButton2 {
-  font-size: 12px;
+  font-size: 14px;
   background-color: red;
   padding: 0.3vw 3vw;
   border-radius: 10px;
@@ -289,8 +343,8 @@ p{
 }
 
 
-.cancelButton, .editButton, .deleteButton1{
-  font-size: 12px;
+.cancelButton, .editButton, .deleteButton1, .replyButton{
+  font-size: 14px;
   background-color: #FEF1B7;
   padding: 0.3vw 3vw;
   border-radius: 10px;
@@ -356,11 +410,21 @@ label{
 }
 
 .standard-box{
-  width:98%;
+  width:95%;
   border-color: #f64c72;
   padding: 10px 20px 10px 20px;
   margin:5px auto 5px auto;
   background-color: #FAFCEF;
+  border-radius:5px;
+}
+
+.reply-box{
+  width:100%;
+  font-size:15px;
+  border: 1px solid #FEF1B7;
+  padding: 10px 10px 10px 10px;
+  margin:5px 0 5px 0;
+  background-color: white;
   border-radius:5px;
 }
 
@@ -394,18 +458,18 @@ label{
 
 
 
- .modalStyle, .editModal, .deleteModal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
+ .modalStyle, .editModal, .deleteModal, .replyModal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  padding-top: 100px;
   left: 0;
   top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
 }
 
 
@@ -420,22 +484,22 @@ label{
 
 .navModal {
 
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  padding-top: 100px;
   left: 0;
   right:0;
   top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
 }
 
 /* The Close Button */
-.closeModal, .close1, .close2{
+.closeModal, .close1, .close2, .close3{
   color: #aaaaaa;
   text-align:right;
   margin-right: auto;
@@ -444,7 +508,7 @@ label{
   font-weight: bold;
 }
 
-.closeModal:hover, .closeModal:focus, .close1:hover,  .close1:focus, .close2:hover, .close2:focus{
+.closeModal:hover, .closeModal:focus, .close1:hover,  .close1:focus, .close2:hover, .close2:focus, .close3:hover, .close3:focus{
   color: #000;
   text-decoration: none;
   cursor: pointer;
@@ -453,173 +517,124 @@ label{
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-/*View on screens between 600 and 1000px*/
-
-@media (min-width:600px)and (max-width:999px){
-
-  body {
-    padding-top: 10px;
-  margin: 155px 0 0 0;
+@media screen and (max-width: 600px) {
+  .topnav a:not(:first-child), .droppdown .droppbtn {
+    display: none;
+  }
   
-
-}
-.newSearch{
-  margin:0;
-  padding:0;
-  text-align: center;
-  position: static;
-  top:auto;
-  z-index: auto;
-}
-
-.newPost{
-  float:none;
-}
-
-.logStatus{
-  text-align: center;
-  margin:0;
+  .topnav a {
+    float: none;
+    display: block;
+    text-align: center;
+  }
+  
+  .topnav a.icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+    display:block;
+    
+  }
 }
 
- #sidenav {
-  width:100%;
-  height: 155px;
-  padding: 0 0 0 0;
-  background-color: #F6A7A4;
-  z-index:1;
+
+@media screen and (max-width: 600px) {
+  .topnav.responsive {z-index:2;
   position: fixed;
-  top:0;
-
+  top:0;}
+  .topnav.responsive .icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .topnav.responsive a {
+    float: none;
+    display: block;
+    text-align: center;
+  }
+  .topnav.responsive .droppdown {float: none;}
+  .topnav.responsive .droppdown-content {position: relative;}
+  .topnav.responsive .droppdown .droppbtn {
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
 }
 
 
-
-.navButton {
-  margin:auto;
-  background-color: #FEF1B7;
-  padding: 0.3vw 3vw;
-  text-align: center;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 16px;
-  color: #F6A7A4;
-  width:200px;
-  display:inline-block;
-}
-  
-.loggedIn {
-  margin:auto;
-  padding: 0.3vw 3vw;
-  color: #FAFCEF;
-  font-style:italic;
-  text-align:center;
-  font-family: 'Caveat Brush', cursive;
-  font-size:25px;
-}
-
-.loggedIn:hover {
-  background-color: #FEE8E2;
-}
-
-.loggedIn:active{
-   outline: none !important;
-   box-shadow: none;
-   background-color:#FAFCEF;
-}
-
-#lptitle{
- 
-  font-size: 100px
-}
-}
+@media (min-width:600px)and (max-width:900px){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*View on large screens (1000px+)*/
-@media (min-width:1000px){
-
-  body {
-    padding-top: 10px;
-  margin: 140px 0 0 0;
-  
-
-}
-
-.newSearch{
-  margin:0;
-  padding:0;
-  text-align: center;
-  position: static;
-  top:auto;
-  z-index: auto;
-}
-
-.newPost{
-  float:none;
-}
-
-.logStatus{
-  text-align: center;
-  margin:0;
-}
 .logo{
-  display:block;
-}
+          display:none;
+          width:33%;
+          
+          position:absolute;
+          bottom:0;
+          left:0%;
+        }
+
+        .postSearchButtons{
+          display:inline-block;
+          width:50%;
+          margin:0;
+          padding:0;
+          text-align: center;
+          position: absolute;
+          bottom:0;
+          left:0%;
+          top:auto;
+          z-index: auto;
+          
+        }
+
+                .newPostButton{
+                  float:none;
+                  display:inline-block!important;
+                  width:40%!important;
+                  
+
+                }
+
+                .searchButton{
+                  display:inline-block!important;
+                  width:40%!important;
+
+                }
+
+        .logStatus{
+          display:inline-block;
+          text-align: center;
+          width:50%;
+          left:50%;
+          margin:0;
+          
+          position:absolute;
+          bottom:0;
+        }
+            .viewProfileButton{
+              border-radius: 10px;
+              display:inline-block!important;
+              margin:auto!important;
+              width:40%!important;
+            }
+
+            .logOutButton{
+              display:inline-block!important;
+              width:40%!important;
+
+
+            }
+
  
- #sidenav {
-  width:100%;
-  height: 140px;
-  padding: 0 0 0 0;
-  background-color: #F6A7A4;
-  z-index:1;
-  position: fixed;
-  top:0;
-}
+
 
 .modalContentStyle{
-  width: 50%;
+  width: 70%;
 }
 
 
-.navButton {
-  margin:15px auto 15px auto;
-  background-color: #FEF1B7;
-  text-align: center;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 16px;
-  color: #F6A7A4;
-  width:200px;
-  display:block;
-  height:30px;
-  line-height: 30px;
-}
-  
 
 
 
@@ -633,18 +648,30 @@ label{
   font-size:25px;
 }
 
-.loggedIn:hover {
-  background-color: #FEE8E2;
+
+
+
 }
 
-.loggedIn:active{
-   outline: none !important;
-   box-shadow: none;
-   background-color:#FAFCEF;
+
+/*View on large screens (900px+)*/
+@media (min-width:900px){
+
+
+.modalContentStyle{
+  width: 50%!important;
 }
 
-#lptitle{
- 
-  font-size: 100px
+.loggedIn {
+  margin:auto;
+  padding: 0.3vw 3vw;
+  color: #FAFCEF;
+  font-style:italic;
+  text-align:center;
+  font-family: 'Caveat Brush', cursive;
+  font-size:25px;
 }
+
+
 }
+
