@@ -1,24 +1,54 @@
-const port = process.env.PORT || 3000;
+let port = process.env.PORT;
+if(port==null||port==""){
+	port=3000
+}
 const express = require("express");
 const app = express();
 const ejs = require ("ejs");
 const mongoose = require("mongoose");
 const expressSession= require("express-session");
 const BlogPost = require('./models/blogpost.js');
+const Reply = require('./models/reply.js');
 const User= require("./models/user.js");
-const loginUserController = require("./controllers/loginUser.js")
+
+
+const loginUserController = require("./controllers/loginUser.js");
+const pageNotFoundController = require("./controllers/pageNotFound.js");
+const searchResultsController = require("./controllers/searchResults.js");
+const newReplyController = require("./controllers/newReply.js");
+const editPostController = require("./controllers/editPost.js");
+const deletePostController = require("./controllers/deletePost.js");
+const newPostController = require("./controllers/newPost.js");
+const signS3Controller=require("./controllers/signS3.js");
+const logOutController=require("./controllers/logOut.js");
+const userPostsController=require("./controllers/userPosts.js");
+const postIDController=require("./controllers/postID.js");
+const aboutPageRouteController=require("./controllers/aboutPageRoute.js");
+const homePageRouteController=require("./controllers/homePageRoute.js");
+const registerController=require("./controllers/register.js");
+const loginPageRouteController=require("./controllers/loginPageRoute.js");
+const signUpPageRouteController=require("./controllers/signUpPageRoute.js");
+
+
 const bcrypt = require("bcrypt");
 const path = require("path");
 const fileUpload = require('express-fileupload');
+const flash= require('connect-flash');
+const aws=require("aws-sdk");
+aws.config.region = 'eu-west-2';
+const S3_BUCKET = process.env.S3_BUCKET;
+const fs = require("fs");
 
 // Define a connection with mongoose.connect which takes in the parameter host and database name.
 // In this case the name of the database is 'boarpp'.
 // While connecting, MongoDB will automatically create this database for us if it does not already exist.
-mongoose.connect('mongodb://localhost/boarpp',
+mongoose.connect('mongodb+srv:/**redacted**',
 	{useNewUrlParser:true, useUnifiedTopology: true });
 
 
-app.use(fileUpload())
+app.use(fileUpload());
+
+
 
 
 // We get form data for MongoDB from the browser via the request 'body' attribute.
@@ -46,189 +76,83 @@ app.set('view engine', 'ejs');
 // It can be set to anything you want.
 app.use(expressSession({
 	secret:'keyboard cat'
-}))
-
-
-
-
-app.get("/auth/login", (req, res)=>{
-	res.render('login')
-});
-
-app.get("/auth/register", (req, res)=>{
-	res.render('register',{
-		errors:req.session.validationErrors
-	})
-});
-
-app.post('/users/login', loginUserController);
-
-app.post('/users/register', (req,res, next)=>{
-	User.create(req.body, (error, user)=>{
-		if(error){
-			
-			const validationErrors = Object.keys(error.errors).map(key=>error.errors[key].message);
-			req.session.validationErrors = validationErrors;
-			
-			return res.redirect('/auth/register');
-		}
-		else{req.session.userId=user._id;
-			res.redirect('/')
-	};})
-});
-
+}));
+app.use(flash());
 
 app.use(async(req, res, next) =>{
     if (req.session.userId == undefined){
-
-        return res.render('landingpage');
-    }   else{
-    	loggedInUserObj=await User.findById(req.session.userId);
-    	req.body.loggedInUser = loggedInUserObj.username;
-    	console.log("app.use + " + req.body.loggedInUser);
-    	
-    	
-    	
+    	next();
+		}   else{
+		loggedInUserObj=await User.findById(req.session.userId);
+		req.body.loggedInUser = loggedInUserObj.username;
         next();
     }
 });
 
 
-app.get("/",async (req, res)=>{
-	
-	const blogposts = await BlogPost.find({}).populate('userid');
-	const useridnumber=req.session.userId;
-	const loggedInUser = req.body.loggedInUser;
-	
-	res.render('home',{
-		blogposts, useridnumber, loggedInUser
-	});
-});
-
-
-/*
-app.get("/newpost", async(req, res)=>{
-	if(req.session.userId){
-		const blogposts = await BlogPost.find({}).populate('userid');
-		const useridnumber=req.session.userId;
-		
-		const loggedInUser = req.body.loggedInUser;
-	return res.render('home',{
-		blogposts, useridnumber, loggedInUser
-	})
-
-	}
-	res.redirect('auth/login')
-});
-*/
 
 
 
 
-/*
-app.get("/search", (req, res)=>{
-	const loggedInUser = req.body.loggedInUser;
-	res.render('search',{loggedInUser})
-});
-*/
+
+
+
+//login get
+app.get("/auth/login", loginPageRouteController);
+
+//register get
+app.get("/auth/register", signUpPageRouteController);
+
+//login post
+app.post('/users/login', loginUserController);
+
+//register post
+app.post('/users/register', registerController);
+
+//route to home page
+app.get("/",homePageRouteController);
+
+//route to about page
+app.get("/about", aboutPageRouteController);
 
 // creates each individual blog post in its own specific url when the post is clicked on from the feed.
-app.get("/post/:id", async(req, res)=>{
-	const blogpost = await BlogPost.findById(req.params.id).populate('userid');
+app.get("/post/:id", postIDController);
 
-	const useridnumber=req.session.userId;
-	const loggedInUser = req.body.loggedInUser;
-	
-	res.render('post',{
-		blogpost, useridnumber, loggedInUser
-	});
+//click on a username to be directed to another page that contains all that user's posts
+app.get("/user/:user", userPostsController);
 
-});
+//logout
+app.get("/auth/logout", logOutController);
 
-app.get("/user/:user", async (req, res)=>{
-	const blogposts = await BlogPost.find({userid:req.params.user}).populate('userid');
-	const useridnumber=req.session.userId;
-	const loggedInUser = req.body.loggedInUser;
-	res.render('searchresults',{
-		blogposts, useridnumber, loggedInUser
-	});
-});
+//submit a new post
+app.post('/posts/store', newPostController);
 
+//send picture to amazon s3 storage
+app.get('/sign-s3', signS3Controller);
 
-app.get('/practice', (req,res)=>{
-	res.render('practice')
-})
+//delete post
+app.post('/posts/delete', deletePostController);
 
-app.get("/auth/logout", (req, res)=>{
-	req.session.destroy(()=>{
-		res.redirect('/')
-	})
-})
+//edit post
+app.post('/posts/edit', editPostController);
 
-app.post('/posts/store', async(req,res)=>{
+//submit a reply/comment to a post
+app.post('/posts/reply', newReplyController);
 
-	//if user did not upload a photo with post:
-	if(!req.files||!req.files.image){
-		await BlogPost.create({...req.body,userid:req.session.userId});
-		res.redirect('/') 
-		}
-
-	//if user uploaded a photo with their post:
-	else {
-		let image = req.files.image;
-		image.mv(path.resolve(__dirname, "public/img",image.name),async(error)=>{
-		await BlogPost.create({...req.body, image:"/img/"+image.name, userid:req.session.userId});
-		res.redirect('/')
-		});
-		}
-})
-
-
-app.post('/posts/delete', async(req, res)=>{
-	
-	await BlogPost.findByIdAndDelete(req.body.delete_post);
-
-	res.redirect('/')
-})
-
-app.post('/posts/edit', async(req, res)=>{
-	
-	await BlogPost.findByIdAndUpdate(req.body.edit_post, {body:req.body.body})
-	res.redirect('/')
-})
-
-
-app.post('/search', async (req, res)=>{
-
-	// The following two line convert req.body.search into a regex expression so it can be used in the .find function that follows.
-	// 'i' passed at the end of the RegExp argument informs program to ignore case sensitivity
-	let stringToGoIntoTheRegex = req.body.search;
-	let searchterm = new RegExp(stringToGoIntoTheRegex, 'i');
-	
-	
-	const blogposts = await BlogPost.find({body:searchterm}).populate('userid');
-	const useridnumber=req.session.userId;
-	const loggedInUser = req.body.loggedInUser;
-	res.render('searchresults',{
-		blogposts, useridnumber, loggedInUser
-	});
-});
-
-
+//search all posts for a particular keyword
+app.post('/search', searchResultsController);
 
 // With this middleware-like route, Express will go through all the routes 
-// and if it cannot find one that matches, it will render pagenotfound.
-app.use((req, res)=>{
-	const loggedInUser = req.body.loggedInUser;
-	res.render('pagenotfound', {loggedInUser})
-});
+// and if it cannot find one that matches, it will rended pagenotfound.
+app.use(pageNotFoundController);
+
+
+
+
+
 
 
 app.listen(port);
 console.log(`server listening on port ${port}`);
-
-
-
-
 
 
