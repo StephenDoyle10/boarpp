@@ -4,11 +4,18 @@
 <%- include('layouts/header'); -%>
 
 <body>
+
 <%- include('layouts/navbar'); -%>
 
-<%- include('layouts/newpostlayout'); -%>
+<% if(useridnumber==undefined) {%>
+<%- include('layouts/signupPromo'); -%>
 
+<%} else{%>
+<%- include('layouts/newpostlayout'); -%>
+<%}%>
 <%- include('layouts/feed'); -%>
+
+<%- include('layouts/scripts'); -%>
 </body>
 
 </html>

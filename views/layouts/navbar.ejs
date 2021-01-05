@@ -1,76 +1,101 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
 
 
-<div class="container-fluid" id = "sidenav">
-	
-	<div class="row">
-		<div class="col-lg-4 col-md-0 col-sm-0 align-self-center">
-			
-			<div class="logo" id="logo">
-				<a href="/"><p id="title">BOARPP</p>
-				<h5 id="slogan">play the game, claim the fame!</h5></a>
-			</div>
-		</div>
-		<div class="col-lg-4 col-md-6 col-sm-12 align-self-center newSearch">
-			<div id="myBtn1" class="navButton newPost">New post</div>
-			<div id="myBtn2" class="navButton">Search</div>
-		</div>
-		<div class="col-lg-4 col-md-6 col-sm-12 align-self-center logStatus">
-			<div class="loggedIn"><p class="loggedInText">Logged in as:&nbsp;&nbsp;&nbsp;</p><p class="loggedInText"><%-loggedInUser %></p></div>
-				<a href="/auth/logout">
-					<div class="navButton logOutBtn">Log out</div>
-				</a>
-			
-		</div>
-	
+<body>
 
-<!-- First modal -->
-	<div class="navModal">
-		<div class="modalContentStyle">
-	  		<div class="closeModal">&times;</div>
-	    	<form action="/posts/store" method="POST">
-				<textarea id="summernoteNav" name="body"></textarea>
-				<script>
-					$('#summernoteNav').summernote({
-				        placeholder: 'What have you been playing recently?',
-				        tabsize: 2,
-				        height: 100,
-				        toolbar: [
-				            [ 'style', [ 'style' ] ],
-				            [ 'font', [ 'bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear'] ],
-				            [ 'fontname', [ 'fontname' ] ],
-				            [ 'fontsize', [ 'fontsize' ] ],
-				            [ 'color', [ 'color' ] ],
-				            [ 'para', [ 'ol', 'ul', 'paragraph', 'height' ] ],
-				            [ 'table', [ 'table' ] ],
-				            [ 'insert', [ 'link'] ],
-				            [ 'view', [ 'undo', 'redo', 'fullscreen', 'codeview', 'help' ] ]
-				        ]
-				      });
-				</script>
-				<button type="submit" class="postbutton" id="sendMessageButton">Post</button>
-			</form>
-		</div>
-	</div>
 
-	<!-- Second modal -->
-	<div class="navModal">
-		 <div class="modalContentStyle">
-		  	<div class="closeModal">&times;</div>
-		    <form action="/search" method="POST">
-				<label>Search blog posts:</label>
-				<input type="text" id="title2" name="search">
-				<button type="submit" class="postbutton" id="sendMessageButton">Search</button>
-			</form>
-		</div>
-	</div>
+
+<div class="topnav" id="myTopnav">
+  <a href="/" class="title" id="title">Boarpp</a>
+  
+  <% if(useridnumber==undefined) {%>
+  <a href="/">Home</a>
+  <a href="/about">What is Boarpp?</a>
+  <a href="#newPostModal" style="display:none;" class = "navButton" data-toggle="modal" data-target="#newPostModal">New post</a>
+  <a href="#searchModal" class = "navButton" data-toggle="modal" data-target="#searchModal">Search</a>
+  <a href="/auth/login">Log in</a>
+  <a href="/auth/register">Sign Up</a>
+  <%} else{%>
+  <a href="/">Home</a> 
+
+  <a href="#newPostModal" class = "navButton" data-toggle="modal" data-target="#newPostModal">New post</a>
+  <a href="#searchModal" class = "navButton" data-toggle="modal" data-target="#searchModal">Search</a>
+  <div class="droppdown">
+    <button class="droppbtn"><%-loggedInUser %>
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="droppdown-content">
+      <a href="/user/<%=useridnumber%>">View profile</a>
+      <a href="/auth/logout">Log out</a>
+    </div>
+  </div> 
+  <a href="/about">What is Boarpp?</a>
+
+
+
+<%}%>
+  <a href="javascript:void(0);" style="font-size:25px;" class="icon" onclick="myFunction()">&#9776;</a>
 </div>
 
+<div class="navModal" id="newPostModal">
+    <div class="modalContentStyle">
+        <div class="closeModal" data-dismiss="modal">&times;</div>
+        <form action="/posts/store" method="POST" enctype="multipart/form-data">
+          <textarea id="summernoteNavbar" name="body"></textarea>
+          <script>
+            $('#summernoteNavbar').summernote({
+        placeholder: 'What have you been playing recently?',
+        tabsize: 2,
+        height: 100,
+        toolbar: [
+            [ 'style', [ 'style' ] ],
+            [ 'font', [ 'bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear'] ],
+            [ 'fontname', [ 'fontname' ] ],
+            [ 'fontsize', [ 'fontsize' ] ],
+            [ 'color', [ 'color' ] ],
+            [ 'para', [ 'ol', 'ul', 'paragraph', 'height' ] ],
+            [ 'table', [ 'table' ] ],
+            [ 'insert', [ 'link'] ],
+            [ 'view', [ 'undo', 'redo', 'fullscreen', 'codeview', 'help' ] ]
+        ]
+      });
+          </script>
+          
 
-</div>
+          <label>Upload image (optional):</label>
+          <input type="file" id="file-inputNAV" name="image">
+          <img id="previewNAV" src="">
+          <button type="submit" class="postbutton" id="sendMessageButton">Post</button>
+        
 
 
+        </form>
+    </div>
+  </div>
+
+<div class="navModal" id="searchModal">
+     <div class="modalContentStyle">
+        <div class="closeModal" data-dismiss="modal">&times;</div>
+        <form action="/search" method="POST">
+        <label>Search blog posts:</label>
+        <input type="text" id="title2" name="search">
+        <button type="submit" class="postbutton" id="sendMessageButton">Search</button>
+      </form>
+    </div>
+  </div>
 
 
-	</html>
+<script>
+function myFunction() {
+  var x = document.getElementById("myTopnav");
+  if (x.className === "topnav") {
+    x.className += " responsive";
+  } else {
+    x.className = "topnav";
+  }
+}
+</script>
+
+</body>
+
+
