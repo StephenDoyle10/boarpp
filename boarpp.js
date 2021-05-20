@@ -1,15 +1,14 @@
-let port = process.env.PORT;
-if(port==null||port==""){
-	port=3000
-}
+
 const express = require("express");
 const app = express();
+require('dotenv').config();
 const ejs = require ("ejs");
 const mongoose = require("mongoose");
 const expressSession= require("express-session");
 const BlogPost = require('./models/blogpost.js');
 const Reply = require('./models/reply.js');
 const User= require("./models/user.js");
+
 
 
 const loginUserController = require("./controllers/loginUser.js");
@@ -30,19 +29,18 @@ const loginPageRouteController=require("./controllers/loginPageRoute.js");
 const signUpPageRouteController=require("./controllers/signUpPageRoute.js");
 
 
-const bcrypt = require("bcrypt");
-const path = require("path");
 const fileUpload = require('express-fileupload');
 const flash= require('connect-flash');
 const aws=require("aws-sdk");
 aws.config.region = 'eu-west-2';
-const S3_BUCKET = process.env.S3_BUCKET;
-const fs = require("fs");
+
 
 // Define a connection with mongoose.connect which takes in the parameter host and database name.
 // In this case the name of the database is 'boarpp'.
 // While connecting, MongoDB will automatically create this database for us if it does not already exist.
-mongoose.connect('mongodb+srv://stephendoyle10:tinYRipples575@cluster0.nimhz.mongodb.net/boarpp',
+
+const dburl = process.env.DB_URL;
+mongoose.connect(dburl,
 	{useNewUrlParser:true, useUnifiedTopology: true });
 
 
@@ -137,6 +135,9 @@ app.post('/search', searchResultsController);
 // With this middleware-like route, Express will go through all the routes 
 // and if it cannot find one that matches, it will rended pagenotfound.
 app.use(pageNotFoundController);
+
+
+let port = process.env.PORT;
 
 
 app.listen(port);
