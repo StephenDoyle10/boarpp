@@ -1,3 +1,7 @@
+let port = process.env.PORT;
+if(port==null||port==""){
+	port=3000
+}
 
 const express = require("express");
 const app = express();
@@ -136,8 +140,6 @@ app.post('/search', searchResultsController);
 // and if it cannot find one that matches, it will rended pagenotfound.
 app.use(pageNotFoundController);
 
-
-let port = process.env.PORT;
 
 
 app.listen(port);
