@@ -98,7 +98,7 @@ p{
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
-  font-size: 20px;
+  font-size: 17px;
 }
 
 .topnav .icon {
@@ -517,7 +517,7 @@ label{
 
 
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 760px) {
   .topnav a:not(:first-child), .droppdown .droppbtn {
     display: none;
   }
@@ -535,10 +535,6 @@ label{
     display:block;
     
   }
-}
-
-
-@media screen and (max-width: 600px) {
   .topnav.responsive {z-index:2;
   position: fixed;
   top:0;}
